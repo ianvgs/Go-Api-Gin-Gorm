@@ -1,5 +1,122 @@
 {{template "header.html"}}
-<section class="section">
+
+<nav class="navbar is-white">
+    <div class="container">
+        <div class="navbar-menu">
+            <div class="navbar-start">
+                <a class="navbar-item is-active" href="#">Popular</a>
+                <a class="navbar-item" href="#">Recent</a>
+                <a class="navbar-item" href="#">Rising</a>
+            </div>
+            <div class="navbar-end">
+                <div class="navbar-item">
+                    <input class="input" type="search" placeholder="Search forum...">
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<section class="container">
+    <div class="columns">
+        <div class="column is-3">
+            <aside class="menu">
+                <p class="menu-label">
+                    Tags
+                </p>
+                <ul class="menu-list">
+                    <li><span class="tag is-primary is-medium ">Dashboard</span></li>
+                    <li><span class="tag is-link is-medium ">Customers</span></li>
+                    <li><span class="tag is-light is-danger is-medium ">Authentication</span></li>
+                    <li><span class="tag is-dark is-medium ">Payments</span></li>
+                    <li><span class="tag is-success is-medium ">Transfers</span></li>
+                    <li><span class="tag is-warning is-medium ">Balance</span></li>
+                    <li><span class="tag is-medium ">Question</span></li>
+                </ul>
+            </aside>
+        </div>
+        <div class="column is-9">
+            <div class="box content">
+
+                {{range $index, $element := .posts}}
+                <article class="post">
+                    <article class="post">
+                        <h4>{{$element.Title}}</h4>
+                        <div class="media">
+                            <div class="media-left">
+                                <p class="image is-32x32">
+                                    <img src="http://bulma.io/images/placeholders/128x128.png">
+                                </p>
+                            </div>
+                            <div class="media-content">
+                                <div class="content">
+                                    <p>
+                                        <a href="#">@jsmith</a> replied 34 minutes ago &nbsp;
+                                        <span class="tag">Question</span>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="media-right">
+                                <span class="has-text-grey-light"><i class="fa fa-comments"></i> 1</span>
+                            </div>
+                        </div>
+                    </article>
+                    {{end}}
+
+                    <article class="post">
+                        <!--    {{.posts}} -->
+                        <h4>Bulma: How do you center a button in a box?</h4>
+                        <div class="media">
+                            <div class="media-left">
+                                <p class="image is-32x32">
+                                    <img src="http://bulma.io/images/placeholders/128x128.png">
+                                </p>
+                            </div>
+                            <div class="media-content">
+                                <div class="content">
+                                    <p>
+                                        <a href="#">@jsmith</a> replied 34 minutes ago &nbsp;
+                                        <span class="tag">Question</span>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="media-right">
+                                <span class="has-text-grey-light"><i class="fa fa-comments"></i> 1</span>
+                            </div>
+                        </div>
+                    </article>
+                    <!-- <article class="post">
+                    <h4>How can I make a bulma button go full width?</h4>
+                    <div class="media">
+                        <div class="media-left">
+                            <p class="image is-32x32">
+                                <img src="http://bulma.io/images/placeholders/128x128.png">
+                            </p>
+                        </div>
+                        <div class="media-content">
+                            <div class="content">
+                                <p>
+                                    <a href="#">@red</a> replied 40 minutes ago &nbsp;
+                                    <span class="tag">Question</span>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="media-right">
+                            <span class="has-text-grey-light"><i class="fa fa-comments"></i> 0</span>
+                        </div>
+                    </div>
+                </article> -->
+
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- <script src="../js/bulma.js"></script> -->
+
+
+<!-- <section class="section">
     <div class="container">
         <h1 class="title">
             Hello World
@@ -9,5 +126,5 @@
         </p>
         <p>{{.content}}</p>
     </div>
-</section>
+</section> -->
 {{template "footer.html"}}

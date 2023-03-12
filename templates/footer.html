@@ -1,32 +1,25 @@
-{{define "footer"}}
+{{define "footer.html"}}
 </body>
-<script type="text/javascript">
-    document.addEventListener('DOMContentLoaded', () => {
 
-        // Get all "navbar-burger" elements
-        const $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
+<footer class="footer ">
+    <div class=" columns is-mobile is-centered">
+        <div class="content has-text-centered field is-grouped is-grouped-multiline">
+            <div class="control">
+                <div class="tags has-addons">
+                    <span class="tag is-light">Ian Vieira - Since 1992 ®</span>
+                </div>
+            </div>
+            <div class="control">
+                <div class="tags has-addons">
+                    <a class="tag is-link">The source code is licensed</a>
+                    <span class="tag is-light">MIT &nbsp;<i class="fa fa-github"></i></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
 
-        // Check if there are any navbar burgers
-        if ($navbarBurgers.length > 0) {
-
-            // Add a click event on each of them
-            $navbarBurgers.forEach(el => {
-                el.addEventListener('click', () => {
-
-                    // Get the target from the "data-target" attribute
-                    const target = el.dataset.target;
-                    const $target = document.getElementById(target);
-
-                    // Toggle the "is-active" class on both the "navbar-burger" and the "navbar-menu"
-                    el.classList.toggle('is-active');
-                    $target.classList.toggle('is-active');
-
-                });
-            });
-        }
-
-    });
-</script>
+</section>
 
 </html>
 {{end}}

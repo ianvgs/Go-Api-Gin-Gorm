@@ -3,12 +3,33 @@ package controllers
 import (
 	"goagain/globals"
 	"goagain/helpers"
+	"goagain/initializers"
+	"goagain/models"
 	"log"
 	"net/http"
 
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
 )
+
+func AboutGetHandler() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		session := sessions.Default(c)
+		user := session.Get(globals.Userkey)
+		if user != nil {
+			c.HTML(http.StatusBadRequest, "about.html",
+				gin.H{
+					"content": "Please logout first",
+					"user":    user,
+				})
+			return
+		}
+		c.HTML(http.StatusOK, "about.html", gin.H{
+			"content": "",
+			"user":    user,
+		})
+	}
+}
 
 func LoginGetHandler() gin.HandlerFunc {
 	return func(c *gin.Context) {
@@ -100,12 +121,18 @@ func LogoutGetHandler() gin.HandlerFunc {
 }
 
 func IndexGetHandler() gin.HandlerFunc {
+
+	var posts []models.Post
+	initializers.DB.Find(&posts)
+	println(posts)
+
 	return func(c *gin.Context) {
-		/* session := sessions.Default(c)
-		user := session.Get(globals.Userkey) */
+		session := sessions.Default(c)
+		user := session.Get(globals.Userkey)
 		c.HTML(http.StatusOK, "index.html", gin.H{
 			"content": "This is an index page...",
-			/* "user":    user, */
+			"user":    user,
+			"posts":   posts,
 		})
 	}
 }
