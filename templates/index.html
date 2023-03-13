@@ -1,92 +1,44 @@
 {{template "header.html"}}
+<div class="columns" style="height: 80vh; margin-bottom: 0; margin-left: 1rem;">
+    <aside class="column is-2 aside hero">
+        <aside class="menu">
+            <p class="menu-label">
+                Tags
+            </p>
+            <ul class="menu-list">
+                <li><span style="display: block;" class="tag is-primary is-medium block">Dashboard</span></li>
+                <li><span style=" display: block;" class="tag is-link is-medium ">Customers</span></li>
+                <li><span style="display: block;" class="tag is-light is-danger is-medium ">Authentication</span></li>
+                <li><span style="display: block;" class="tag is-dark is-medium ">Payments</span></li>
+                <li><span style="display: block;" class="tag is-success is-medium ">Transfers</span></li>
+                <li><span style="display: block;" class="tag is-warning is-medium ">Balance</span></li>
+                <li><span class="tag is-medium ">Question</span></li>
+            </ul>
+        </aside>
 
-<nav class="navbar is-white">
-    <div class="container">
-        <div class="navbar-menu">
-            <div class="navbar-start">
-                <a class="navbar-item is-active" href="#">Popular</a>
-                <a class="navbar-item" href="#">Recent</a>
-                <a class="navbar-item" href="#">Rising</a>
-            </div>
-            <div class="navbar-end">
-                <div class="navbar-item">
-                    <input class="input" type="search" placeholder="Search forum...">
-                </div>
-            </div>
+        <div class="main">
+            <a href="#" class="item active block"><span class="icon"><i class="fa fa-inbox block"></i></span><span
+                    class="name">Inbox</span></a>
+            <a href="#" class="item"><span class="icon"><i class="fa fa-star"></i></span><span
+                    class="name">Starred</span></a>
+            <a href="#" class="item"><span class="icon"><i class="fa fa-envelope-o"></i></span><span class="name">Sent
+                    Mail</span></a>
+            <a href="#" class="item"><span class="icon"><i class="fa fa-folder-o"></i></span><span
+                    class="name">Folders</span></a>
         </div>
-    </div>
-</nav>
-
-<section class="container">
-    <div class="columns">
-        <div class="column is-3">
-            <aside class="menu">
-                <p class="menu-label">
-                    Tags
-                </p>
-                <ul class="menu-list">
-                    <li><span class="tag is-primary is-medium ">Dashboard</span></li>
-                    <li><span class="tag is-link is-medium ">Customers</span></li>
-                    <li><span class="tag is-light is-danger is-medium ">Authentication</span></li>
-                    <li><span class="tag is-dark is-medium ">Payments</span></li>
-                    <li><span class="tag is-success is-medium ">Transfers</span></li>
-                    <li><span class="tag is-warning is-medium ">Balance</span></li>
-                    <li><span class="tag is-medium ">Question</span></li>
-                </ul>
-            </aside>
+        <div class="compose has-text-centered">
+            <a class="button is-danger is-block is-bold">
+                <span class="compose">Compose</span>
+            </a>
         </div>
-        <div class="column is-9">
-            <div class="box content">
 
-                {{range $index, $element := .posts}}
+    </aside>
+    <div class="column is-8 messages hero ">
+        <div class=" box content">
+            {{range $index, $element := .posts}}
+            <article class="post">
                 <article class="post">
-                    <article class="post">
-                        <h4>{{$element.Title}}</h4>
-                        <div class="media">
-                            <div class="media-left">
-                                <p class="image is-32x32">
-                                    <img src="http://bulma.io/images/placeholders/128x128.png">
-                                </p>
-                            </div>
-                            <div class="media-content">
-                                <div class="content">
-                                    <p>
-                                        <a href="#">@jsmith</a> replied 34 minutes ago &nbsp;
-                                        <span class="tag">Question</span>
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="media-right">
-                                <span class="has-text-grey-light"><i class="fa fa-comments"></i> 1</span>
-                            </div>
-                        </div>
-                    </article>
-                    {{end}}
-
-                    <article class="post">
-                        <!--    {{.posts}} -->
-                        <h4>Bulma: How do you center a button in a box?</h4>
-                        <div class="media">
-                            <div class="media-left">
-                                <p class="image is-32x32">
-                                    <img src="http://bulma.io/images/placeholders/128x128.png">
-                                </p>
-                            </div>
-                            <div class="media-content">
-                                <div class="content">
-                                    <p>
-                                        <a href="#">@jsmith</a> replied 34 minutes ago &nbsp;
-                                        <span class="tag">Question</span>
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="media-right">
-                                <span class="has-text-grey-light"><i class="fa fa-comments"></i> 1</span>
-                            </div>
-                        </div>
-                    </article>
-                    <!-- <article class="post">
-                    <h4>How can I make a bulma button go full width?</h4>
+                    <h4>{{$element.Title}}</h4>
                     <div class="media">
                         <div class="media-left">
                             <p class="image is-32x32">
@@ -96,35 +48,47 @@
                         <div class="media-content">
                             <div class="content">
                                 <p>
-                                    <a href="#">@red</a> replied 40 minutes ago &nbsp;
+                                    <a href="#">@jsmith</a> replied 34 minutes ago &nbsp;
                                     <span class="tag">Question</span>
                                 </p>
                             </div>
                         </div>
                         <div class="media-right">
-                            <span class="has-text-grey-light"><i class="fa fa-comments"></i> 0</span>
+                            <span class="has-text-grey-light"><i class="fa fa-comments"></i> 1</span>
                         </div>
                     </div>
-                </article> -->
-
-            </div>
+                </article>
+                {{end}}
+                <article class="post">
+                    <!--    {{.posts}} -->
+                    <h4>Bulma: How do you center a button in a box?</h4>
+                    <div class="media">
+                        <div class="media-left">
+                            <p class="image is-32x32">
+                                <img src="http://bulma.io/images/placeholders/128x128.png">
+                            </p>
+                        </div>
+                        <div class="media-content">
+                            <div class="content">
+                                <p>
+                                    <a href="#">@jsmith</a> replied 34 minutes ago &nbsp;
+                                    <span class="tag">Question</span>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="media-right">
+                            <span class="has-text-grey-light"><i class="fa fa-comments"></i> 1</span>
+                        </div>
+                    </div>
+                </article>
         </div>
     </div>
-</section>
-
-
-<!-- <script src="../js/bulma.js"></script> -->
-
-
-<!-- <section class="section">
-    <div class="container">
-        <h1 class="title">
-            Hello World
-        </h1>
-        <p class="subtitle">
-            My first website with <strong>Bulma</strong>!
-        </p>
-        <p>{{.content}}</p>
+    <div class="column is-2 message hero  ">
     </div>
-</section> -->
+</div>
+
+
+
+
+
 {{template "footer.html"}}

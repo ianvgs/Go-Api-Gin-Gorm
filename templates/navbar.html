@@ -1,9 +1,10 @@
 {{define "navbar.html"}}
-<nav class="navbar is-light topNav">
-    <div class="container">
+<div>
+    <nav class="navbar is-dark" style="background-color: #55696B;">
+
         <div class="navbar-brand">
             <a class="navbar-item" href="../">
-                <img src="/assets/logo.png" width="50" height="28">
+                <img src="/assets/gopngg.png">
             </a>
             <div class="navbar-burger burger" data-target="topNav">
                 <span></span>
@@ -43,7 +44,23 @@
                 </div>
             </div>
         </div>
-    </div>
-</nav>
+
+    </nav>
+    <nav class="navbar is-white ">
+        <div class="navbar-menu">
+            <div class="navbar-start">
+                <a class="navbar-item is-active" href="#">Popular</a>
+                <a class="navbar-item" href="#">Recent</a>
+                <a class="navbar-item" href="#">Rising</a>
+            </div>
+            <div class="navbar-end">
+                <div class="navbar-item">
+                    <input class="input" type="search" placeholder="Search forum...">
+                </div>
+            </div>
+        </div>
+
+    </nav>
+</div>
 
 {{end}}
