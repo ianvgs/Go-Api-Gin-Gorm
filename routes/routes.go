@@ -3,12 +3,11 @@ package routes
 import (
 	"goagain/controllers"
 	"goagain/globals"
+	"goagain/middleware"
 
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-contrib/sessions/cookie"
 	"github.com/gin-gonic/gin"
-
-	"goagain/middleware"
 )
 
 func HandleRequests() {
@@ -36,6 +35,7 @@ func HandleRequests() {
 
 func publicRoutes(g *gin.RouterGroup) {
 	g.GET("/login", controllers.LoginGetHandler())
+	g.GET("/logout", controllers.LogoutGetHandler())
 	g.GET("/register", controllers.RegisterGetHandler())
 	g.GET("/about", controllers.AboutGetHandler())
 	g.POST("/login", controllers.LoginPostHandler())
@@ -44,7 +44,6 @@ func publicRoutes(g *gin.RouterGroup) {
 
 func privateRoutes(g *gin.RouterGroup) {
 	g.GET("/dashboard", controllers.DashboardGetHandler())
-	g.GET("/logout", controllers.LogoutGetHandler())
 
 }
 

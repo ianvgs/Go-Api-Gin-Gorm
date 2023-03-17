@@ -16,24 +16,35 @@
             <div class="navbar-start">
                 <a class="navbar-item" href="/">Home</a>
                 <a class="navbar-item" href="about">About me</a>
-                <!--  <a class="navbar-item" href="kanban[search].html">Kanban</a>
-                <a class="navbar-item" href="search.html">Search</a> -->
+                <a class="navbar-item" href="about">{{.user}}</a>
+
             </div>
             <div class="navbar-end">
                 <div class="navbar-item">
                     <div class="field is-grouped">
                         <p class="control">
-                            <a class="button is-small" href="/login">
+                            <a class="button is-small is-info is-outlined" href="/logout">
+                                <span class="icon">
+                                    <i class="fa fa-user"></i>
+                                </span>
+                                <span>Logout</span>
+                            </a>
+                        </p>
+
+                        <p class="control">
+                            <a class="button is-small" href="/register">
                                 <span class="icon">
                                     <i class="fa fa-user-plus"></i>
                                 </span>
                                 <span>
                                     Criar conta
+                                    {{ .content }}
                                 </span>
+
                             </a>
                         </p>
                         <p class="control">
-                            <a class="button is-small is-info is-outlined" href="/register">
+                            <a class="button is-small is-info is-outlined" href="/login">
                                 <span class="icon">
                                     <i class="fa fa-user"></i>
                                 </span>
@@ -45,7 +56,11 @@
             </div>
         </div>
 
-    </nav>
+
+
+
+
+        <!--  </nav>
     <nav class="navbar is-white ">
         <div class="navbar-menu">
             <div class="navbar-start">
@@ -60,7 +75,7 @@
             </div>
         </div>
 
-    </nav>
+    </nav> -->
 </div>
 
 {{end}}

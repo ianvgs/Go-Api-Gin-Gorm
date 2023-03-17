@@ -12,7 +12,12 @@
                     <div class="notification is-danger is-light">
                         {{.content}}
                     </div>
+                    {{end}}
 
+                    {{if .}}
+                    <div class="notification is-danger is-light">
+                        {{.}}
+                    </div>
                     {{end}}
 
                     <div class="field">

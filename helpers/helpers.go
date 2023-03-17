@@ -8,7 +8,6 @@ import (
 func CheckUserPass(username, password string) bool {
 	userpass := make(map[string]string)
 	userpass["hello"] = "itsme"
-	userpass["john"] = "doe"
 
 	log.Println("checkUserPass", username, password, userpass)
 

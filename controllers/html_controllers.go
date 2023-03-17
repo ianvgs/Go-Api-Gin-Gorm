@@ -35,17 +35,16 @@ func LoginGetHandler() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		session := sessions.Default(c)
 		user := session.Get(globals.Userkey)
+
+		log.Printf("%v", user)
+
 		if user != nil {
-			c.HTML(http.StatusBadRequest, "login.html",
-				gin.H{
-					"content": "Please logout first",
-					"user":    user,
-				})
+			c.Redirect(http.StatusBadRequest, "/")
 			return
+
 		}
 		c.HTML(http.StatusOK, "login.html", gin.H{
-			"content": "",
-			"user":    user,
+			"user": user,
 		})
 	}
 }
@@ -105,16 +104,20 @@ func LogoutGetHandler() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		session := sessions.Default(c)
 		user := session.Get(globals.Userkey)
+
 		log.Println("logging out user:", user)
 		if user == nil {
 			log.Println("Invalid session token")
 			return
 		}
+
 		session.Delete(globals.Userkey)
 		if err := session.Save(); err != nil {
+			log.Println("Passei aqui")
 			log.Println("Failed to save session:", err)
 			return
 		}
+		log.Println("Passei aqui")
 
 		c.Redirect(http.StatusMovedPermanently, "/")
 	}
@@ -141,6 +144,9 @@ func DashboardGetHandler() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		session := sessions.Default(c)
 		user := session.Get(globals.Userkey)
+
+		log.Println("%v", user)
+
 		c.HTML(http.StatusOK, "dashboard.html", gin.H{
 			"content": "This is a dashboard",
 			"user":    user,
