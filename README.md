@@ -5,6 +5,8 @@ Get (:PORT/posts) => returns all posts from db
 Post (:PORT/posts) => create and return a posts by sendind {"Title":"some","Body":"some-body"}
 
 Also includes patch/put/get:id routes... just check yourself.
+### Adding new packages
+ go get gorm.io/driver/mysql
 
 ### I'm using GORM ORM with PostgresQL, to enable it fill the DB_URI in .env like:
 POSTGRES_URI="host=localhost user=ian password=1708 dbname=dianaOnRails_development port=5432 sslmode=disable"

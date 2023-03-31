@@ -4,6 +4,8 @@ import (
 	"goagain/controllers"
 	"goagain/globals"
 	"goagain/middleware"
+	"strings"
+	"text/template"
 
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-contrib/sessions/cookie"
@@ -12,6 +14,9 @@ import (
 
 func HandleRequests() {
 	r := gin.Default()
+	r.SetFuncMap(template.FuncMap{
+		"ToUpper": strings.ToUpper,
+	})
 
 	r.Static("/assets", "./assets")
 	r.LoadHTMLGlob("templates/*.html")
