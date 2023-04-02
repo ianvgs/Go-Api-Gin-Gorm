@@ -1,7 +1,10 @@
 // nome := c.Params.ByName("nome")
 // id := c.Params.ByName("id")
 // cpf := c.Param("cpf")
+/* nome := c.Params.ByName("nome") */
 package controllers
+
+//ESSE CONTROLLER SÒ  DEVOLVE JAISON (API_WAY)
 
 import (
 	"goagain/initializers"
@@ -11,6 +14,27 @@ import (
 
 	"github.com/gin-gonic/gin"
 )
+
+//localhost:3000/posts
+func PostIndex(c *gin.Context) {
+	var posts []models.Noticia
+	initializers.DB.Find(&posts)
+
+	c.JSON(http.StatusOK, gin.H{
+		"posts": posts,
+	})
+
+}
+
+//localhost:3000/posts/id
+func PostShow(c *gin.Context) {
+	id := c.Param("id")
+	var post models.Noticia
+	initializers.DB.Preload("Colaborador").First(&post, id)
+	c.JSON(http.StatusOK, gin.H{
+		"post": post,
+	})
+}
 
 func PostCreate(c *gin.Context) {
 	body := models.Noticia{}
@@ -30,31 +54,6 @@ func PostCreate(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{
 		"post": body,
 	})
-}
-
-func PostIndex(c *gin.Context) {
-	var posts []models.Noticia
-	initializers.DB.Find(&posts)
-
-	c.JSON(http.StatusOK, gin.H{
-		"posts": posts,
-	})
-
-}
-
-func PostShow(c *gin.Context) {
-
-	/* nome := c.Params.ByName("nome") */
-
-	id := c.Param("id")
-
-	var post models.Noticia
-	initializers.DB.First(&post, id)
-
-	c.JSON(http.StatusOK, gin.H{
-		"post": post,
-	})
-
 }
 
 func PostUpdate(c *gin.Context) {
@@ -86,21 +85,16 @@ func PostUpdate(c *gin.Context) {
 
 func PostUpdater(c *gin.Context) {
 	id := c.Param("id")
-
 	var body struct {
 		Titulo string
 		Resumo string
 	}
-
 	c.Bind(&body)
-
 	var post models.Noticia
 	initializers.DB.First(&post, id)
-
 	initializers.DB.Model(&post).Updates(models.Noticia{
 		Titulo: body.Titulo, Resumo: body.Resumo,
 	})
-
 	c.JSON(http.StatusOK, gin.H{
 		"message": "Updeitado",
 		"post":    body,
@@ -110,9 +104,7 @@ func PostUpdater(c *gin.Context) {
 
 func PostDelete(c *gin.Context) {
 	id := c.Param("id")
-
 	initializers.DB.Delete(&models.Noticia{}, id)
-
 	c.JSON(http.StatusOK, gin.H{
 		"message": "Deleitado",
 	})

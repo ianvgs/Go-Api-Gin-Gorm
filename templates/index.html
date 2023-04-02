@@ -1,5 +1,6 @@
-{{template "header.html"}}
-<div class="columns" style="height: 80vh; margin-bottom: 0; margin-left: 1rem;">
+{{template "header.html" .}}
+
+<div class="columns" style="margin-left: 1rem; margin-top: 1rem;">
     <aside class="column is-2 aside hero">
         <aside class="menu">
             <p class="menu-label;">
@@ -8,44 +9,43 @@
             <ul class="menu-list" style="justify-content: space-between;">
                 {{range $index, $element := .categorias}}
                 <li>
-                    <span style="display: block; text-align: center; margin-bottom: 10px;"
-                        class="{{index $.colors $index}}">{{ToUpper
-                        $element.Nome}}</span>
+                    <a style="padding:0%; margin-top:5px ;">
+                        <span style="display: block; text-align: center; " class="{{index $.colors $index}}">
+                            {{ToUpper $element.Nome}}
+                        </span>
+                    </a>
                 </li>
                 {{end}}
-                <li><span style=" display: block;text-align: center; margin-bottom: 10px;"
-                        class="tag is-link is-medium ">CUSTOMERS</span>
-                </li>
-                <li><span style="display: block;text-align: center; margin-bottom: 10px;"
-                        class="tag is-light is-danger is-medium ; margin-bottom: 10px;">AUTHENTICATION</span></li>
-                <li><span style="display: block;text-align: center; margin-bottom: 10px;"
-                        class="tag is-dark is-medium ">PAYMENTS</span></li>
-                <li><span style="display: block;text-align: center; margin-bottom: 10px;"
-                        class="tag is-success is-medium ">TRANSFERS</span>
-                </li>
+                <li><a style="padding:0%; margin-top:5px ;">
+                        <span style=" display: block;text-align: center;"
+                            class="tag is-link is-medium ">CUSTOMERS</span>
+                    </a></li>
+                <li><a style="padding:0%; margin-top:5px ;"><span style="display: block;text-align: center; "
+                            class="tag is-light is-danger is-medium ;">AUTHENTICATION</span></a></li>
+                <li><a style="padding:0%; margin-top:5px ;"><span style="display: block;text-align: center;"
+                            class="tag is-dark is-medium ">PAYMENTS</span></a></li>
+                <li><a style="padding:0%; margin-top:5px ;"><span style="display: block;text-align: center; "
+                            class="tag is-success is-medium ">TRANSFERS</span>
+                    </a></li>
             </ul>
         </aside>
 
-        <div class="main, align-self: end">
+        <div>
             <a href="#" class="item active block"><span class="icon"><i class="fa fa-inbox block"></i></span><span
                     class="name">Inbox</span></a>
             <a href="#" class="item"><span class="icon"><i class="fa fa-star"></i></span><span
                     class="name">Starred</span></a>
             <a href="#" class="item"><span class="icon"><i class="fa fa-envelope-o"></i></span><span class="name">Sent
                     Mail</span></a>
-            <a href="#" class="item"><span class="icon"><i class="fa fa-folder-o"></i></span><span
-                    class="name">Folders</span></a>
-            <div class="compose has-text-centered">
-                <a class="button is-danger is-block is-bold">
-                    <span class="compose">Compose</span>
-                </a>
-            </div>
+
+
         </div>
 
     </aside>
     <div class="column is-8 messages hero ">
         <div class=" box content">
             {{range $index, $element := .posts}}
+
             <article class="post">
                 <article class="post">
                     <!--    {{$element}} -->
@@ -69,7 +69,14 @@
                         <div class="media-right">
                             <span class="has-text-grey-light"><i class="fa fa-comments"></i> 1</span>
                         </div>
+
+
                     </div>
+
+
+                    {{if lt $index (Subt (len $.posts) 1) }}
+                    <hr class="is-divider">
+                    {{end}}
                 </article>
                 {{end}}
         </div>

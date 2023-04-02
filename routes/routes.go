@@ -12,10 +12,15 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+func Subt(a, b int) int {
+	return a - b
+}
+
 func HandleRequests() {
 	r := gin.Default()
 	r.SetFuncMap(template.FuncMap{
 		"ToUpper": strings.ToUpper,
+		"Subt":    Subt,
 	})
 
 	r.Static("/assets", "./assets")
@@ -49,18 +54,6 @@ func publicRoutes(g *gin.RouterGroup) {
 
 func privateRoutes(g *gin.RouterGroup) {
 	g.GET("/dashboard", controllers.DashboardGetHandler())
-
-}
-
-// Post module --- PSQL
-func postRoutes(g *gin.RouterGroup) {
-	g.GET("/posts", controllers.PostIndex)
-	g.POST("/posts", controllers.PostCreate)
-	g.GET("/posts/:id", controllers.PostShow)
-	g.PUT("/posts/:id", controllers.PostUpdate)
-	g.PATCH("/posts/:id", controllers.PostUpdater)
-	g.DELETE("/posts/:id", controllers.PostUpdater)
-
 }
 
 // User Module MONGODB
@@ -70,4 +63,15 @@ func userRoutes(g *gin.RouterGroup) {
 	g.PUT("/user/:userId", controllers.EditAUser())
 	g.DELETE("/user/:userId", controllers.DeleteAUser())
 	g.GET("/users", controllers.GetAllUsers())
+}
+
+// Post noticias, não deixar habilitado
+func postRoutes(g *gin.RouterGroup) {
+	g.GET("/posts", controllers.PostIndex)
+	g.GET("/posts/:id", controllers.PostShow)
+	/* g.POST("/posts", controllers.PostCreate)
+	g.PUT("/posts/:id", controllers.PostUpdate)
+	g.PATCH("/posts/:id", controllers.PostUpdater)
+	g.DELETE("/posts/:id", controllers.PostUpdater) */
+
 }

@@ -8,17 +8,11 @@ import (
 	"goagain/models"
 	"log"
 	"net/http"
-	"strings"
 	"time"
 
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
 )
-
-// Define a custom function that converts a string to uppercase
-func ToUpper(s string) string {
-	return strings.ToUpper(s)
-}
 
 func IndexGetHandler() gin.HandlerFunc {
 	colors := []string{"tag is-primary is-medium block", "tag is-link is-medium ", "tag is-light is-danger is-medium", "tag is-dark is-medium ", "tag is-success is-medium ", "tag is-warning is-medium "}
@@ -92,8 +86,6 @@ func LoginGetHandler() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		session := sessions.Default(c)
 		user := session.Get(globals.Userkey)
-
-		log.Printf("%v", user)
 
 		if user != nil {
 			c.Redirect(http.StatusBadRequest, "/")

@@ -1,3 +1,7 @@
+Orientações:
+. === contexto do gin (tudo que é injetado na pagina), se você compoe a pagina com varios templates(content,header,footer) você precisa propagar o contexto pra eles passando o "." depois de declarar que eles estão presentes:
+{{template "header.html" .}}
+
 # Go-Api-Gin-Gorm
 REST API made with GO-GIN-GORM
 This API only watches for :PORT/posts (CRUD) requests
