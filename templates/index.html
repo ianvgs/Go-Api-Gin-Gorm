@@ -48,7 +48,8 @@
             {{range $index, $element := .posts}}
             <article class="post">
                 <article class="post">
-                    {{$element}}
+                    <!--    {{$element}} -->
+                    <!-- tem que acessar o atributo como na model "Nome","Titulo" -->
                     <h4>{{$element.Titulo}}</h4>
                     <div class="media">
                         <div class="media-left">
@@ -59,7 +60,8 @@
                         <div class="media-content">
                             <div class="content">
                                 <p>
-                                    <a href="#">@jsmith</a> replied 34 minutes ago &nbsp;
+                                    <!-- tem que acessar o atributo como na model "Nome","Titulo" -->
+                                    <a href="#">@{{$element.Colaborador.Nome}}</a> replied 34 minutes ago &nbsp;
                                     <span class="tag">Question</span>
                                 </p>
                             </div>

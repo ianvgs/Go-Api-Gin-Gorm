@@ -9,6 +9,7 @@ import (
 	"log"
 	"net/http"
 	"strings"
+	"time"
 
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
@@ -21,18 +22,37 @@ func ToUpper(s string) string {
 
 func IndexGetHandler() gin.HandlerFunc {
 	colors := []string{"tag is-primary is-medium block", "tag is-link is-medium ", "tag is-light is-danger is-medium", "tag is-dark is-medium ", "tag is-success is-medium ", "tag is-warning is-medium "}
-	/*
-		initializers.DB.Migrator().DropColumn(&models.Noticia{}, "deleted_at") */
 
 	var noticias []models.Noticia
 	initializers.DB.Unscoped().Preload("Colaborador").Limit(5).Find(&noticias)
+	noticias = append(noticias, models.Noticia{
+		Id:            1,
+		ColaboradorId: 1,
+		Titulo:        "mockTitulo",
+		Resumo:        "mockResumo",
+		Texto:         "mockTexto",
+		IdCategoria:   1,
+		Ativo:         "S",
+		CreatedAt:     time.Date(2023, 4, 2, 10, 30, 0, 0, time.UTC),
+		UpdatedAt:     time.Date(2023, 4, 2, 10, 30, 0, 0, time.UTC),
+	})
 
-	for _, noticia := range noticias {
-		fmt.Println("Título:", noticia)
-	}
+	fmt.Println("Noticias:", noticias)
+	/* for _, noticia := range noticias {
+		fmt.Println("Título:", noticia.Colaborador)
+	} */
 
 	var categorias []models.Categoria
 	initializers.DB.Find(&categorias)
+	categorias = append(categorias, models.Categoria{
+		Id:        1,
+		Nome:      "MockCategNome",
+		Descricao: "categMock",
+	})
+
+	for _, categoria := range categorias {
+		fmt.Println("categoria:", categoria)
+	}
 
 	return func(c *gin.Context) {
 		session := sessions.Default(c)

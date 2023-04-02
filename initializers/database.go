@@ -7,9 +7,9 @@ import (
 	"gorm.io/gorm"
 )
 
-const DB_USERNAME = "root"
-const DB_PASSWORD = ""
-const DB_NAME = "news_database2"
+const DB_USERNAME = "ian"
+const DB_PASSWORD = "1708"
+const DB_NAME = "ian"
 const DB_HOST = "127.0.0.1"
 const DB_PORT = "3306"
 
