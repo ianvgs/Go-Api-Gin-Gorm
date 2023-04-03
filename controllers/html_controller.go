@@ -130,12 +130,15 @@ func LogoutGetHandler() gin.HandlerFunc {
 		}
 
 		session.Delete(globals.Userkey)
-		if err := session.Save(); err != nil {
+		/* if err := session.Save(); err != nil {
 			log.Println("Failed to save session:", err)
 			return
-		}
+		} */
 
-		c.Redirect(http.StatusMovedPermanently, "/")
+		c.HTML(http.StatusOK, "index.html", gin.H{
+			"content": "This is a dashboard",
+			"user":    "",
+		})
 	}
 }
 
@@ -143,7 +146,6 @@ func DashboardGetHandler() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		session := sessions.Default(c)
 		user := session.Get(globals.Userkey)
-		/* log.Println("%v", user) */
 		c.HTML(http.StatusOK, "dashboard.html", gin.H{
 			"content": "This is a dashboard",
 			"user":    user,

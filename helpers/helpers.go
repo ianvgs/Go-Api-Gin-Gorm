@@ -5,6 +5,10 @@ import (
 	"strings"
 )
 
+func Subt(a, b int) int {
+	return a - b
+}
+
 func CheckUserPass(username, password string) bool {
 	userpass := make(map[string]string)
 	userpass["Johnny"] = "Pazz'word"

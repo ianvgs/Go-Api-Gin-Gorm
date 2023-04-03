@@ -1,8 +1,6 @@
 package middleware
 
 import (
-	"goagain/globals"
-
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
 
@@ -17,7 +15,7 @@ func AuthRequired(c *gin.Context) {
 	user := session.Get("user")
 	if user == nil {
 		log.Println("User not logged in")
-		session.Set(globals.ErrorMsg, "Oh-ho, need to be authenticated!")
+
 		session.Save()
 		c.Redirect(http.StatusMovedPermanently, "/login")
 		c.Abort()

@@ -6,7 +6,6 @@ import (
 	"goagain/globals"
 	"goagain/initializers"
 
-	//possivel erro no futuro, deixar tudo no mesmo nome, seila
 	mongomodels "goagain/models/mongo"
 	"goagain/responses"
 	"net/http"
@@ -25,7 +24,7 @@ var validate = validator.New()
 
 func CreateUser() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		session := sessions.Default(c)
+
 		username := c.PostForm("username")
 		password := c.PostForm("password")
 
@@ -39,20 +38,8 @@ func CreateUser() gin.HandlerFunc {
 		//debuggin
 
 		ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
-		/* var user mongomodels.User */
+
 		defer cancel()
-
-		//validate the request body
-		/* if err := c.BindJSON(&user); err != nil {
-			c.JSON(http.StatusBadRequest, responses.UserResponse{Status: http.StatusBadRequest, Message: "error", Data: map[string]interface{}{"data": err.Error()}})
-			return
-		} */
-
-		//use the validator library to validate required fields
-		/* if validationErr := validate.Struct(&user); validationErr != nil {
-			c.JSON(http.StatusBadRequest, responses.UserResponse{Status: http.StatusBadRequest, Message: "error", Data: map[string]interface{}{"data": validationErr.Error()}})
-			return
-		} */
 
 		newUser := mongomodels.User{
 			Id:       primitive.NewObjectID(),
@@ -70,11 +57,9 @@ func CreateUser() gin.HandlerFunc {
 		}
 
 		fmt.Printf("Result: %s\n", result)
-		session.Set(globals.SuccessMsg, result)
-		session.Save()
+
 		c.Redirect(http.StatusMovedPermanently, "/login")
 
-		/* c.JSON(http.StatusCreated, responses.UserResponse{Status: http.StatusCreated, Message: "success", Data: map[string]interface{}{"data": result}}) */
 	}
 }
 
@@ -95,26 +80,11 @@ func LoginPostHandler() gin.HandlerFunc {
 		username := c.PostForm("username")
 		password := c.PostForm("password")
 
-		/* if helpers.EmptyUserPass(username, password) {
-			c.HTML(http.StatusBadRequest, "login.html", gin.H{"content": "Parameters can't be empty"})
-			return
-		} */
-
-		/* if !helpers.CheckUserPass(username, password) {
-			c.HTML(http.StatusUnauthorized, "login.html", gin.H{"content": "Incorrect username or password"})
-			return
-		} */
-
-		filter := bson.M{"username": username, "password": password}
-		/* 	err := userCollection.FindOne(ctx, filter).Decode(&muser) */
-
-		err := userCollection.FindOne(ctx, filter).Decode(&muser)
+		err := userCollection.FindOne(ctx, bson.M{"username": username, "password": password}).Decode(&muser)
 
 		if err != nil {
 			c.HTML(http.StatusInternalServerError, "login.html", gin.H{"content": "Houve algum erro, tente a senha novamente! :)"})
-			//abaixo sao erros que quebram a aplicacao
-			/* c.JSON(http.StatusInternalServerError, responses.UserResponse{Status: http.StatusInternalServerError, Message: "error", Data: map[string]interface{}{"data": err.Error()}})
-			 */return
+			return
 		}
 
 		session.Set(globals.Userkey, username)
@@ -148,7 +118,7 @@ func LoginPostHandler() gin.HandlerFunc {
 	}
 } */
 
-func EditAUser() gin.HandlerFunc {
+/* func EditAUser() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 		userId := c.Param("userId")
@@ -187,9 +157,9 @@ func EditAUser() gin.HandlerFunc {
 
 		c.JSON(http.StatusOK, responses.UserResponse{Status: http.StatusOK, Message: "success", Data: map[string]interface{}{"data": updatedUser}})
 	}
-}
+} */
 
-func DeleteAUser() gin.HandlerFunc {
+/* func DeleteAUser() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 		userId := c.Param("userId")
@@ -214,9 +184,9 @@ func DeleteAUser() gin.HandlerFunc {
 			responses.UserResponse{Status: http.StatusOK, Message: "success", Data: map[string]interface{}{"data": "User successfully deleted!"}},
 		)
 	}
-}
+} */
 
-func GetAllUsers() gin.HandlerFunc {
+/* func GetAllUsers() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 		var users []mongomodels.User
@@ -245,3 +215,4 @@ func GetAllUsers() gin.HandlerFunc {
 		)
 	}
 }
+*/

@@ -3,7 +3,9 @@ package routes
 import (
 	"goagain/controllers"
 	"goagain/globals"
+	"goagain/helpers"
 	"goagain/middleware"
+	"net/http"
 	"strings"
 	"text/template"
 
@@ -12,21 +14,27 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func Subt(a, b int) int {
-	return a - b
-}
-
 func HandleRequests() {
 	r := gin.Default()
-	//debugger
+	//Middleware debugger
 	gin.SetMode(gin.DebugMode)
 	r.Use(gin.Logger())
-	//debugger
+
+	//Funcoes pra serem usadas nos HTML
 	r.SetFuncMap(template.FuncMap{
 		"ToUpper": strings.ToUpper,
-		"Subt":    Subt,
+		"Subt":    helpers.Subt,
 	})
 
+	//Middleware 404
+	r.Use(func(c *gin.Context) {
+		c.Next()
+		if c.Writer.Status() == 404 {
+			c.HTML(http.StatusBadRequest, "404.html", gin.H{"content": "Page not found."})
+		}
+	})
+
+	//Configs
 	r.Static("/assets", "./assets")
 	r.LoadHTMLGlob("templates/*.html")
 	r.Use(sessions.Sessions("session", cookie.NewStore(globals.Secret)))
@@ -64,19 +72,10 @@ func privateRoutes(g *gin.RouterGroup) {
 // User Module MONGODB
 func userRoutes(g *gin.RouterGroup) {
 	g.POST("/user", controllers.CreateUser())
-	/* 	g.GET("/user/:userId", controllers.GetAUser()) */
-	g.PUT("/user/:userId", controllers.EditAUser())
-	g.DELETE("/user/:userId", controllers.DeleteAUser())
-	g.GET("/users", controllers.GetAllUsers())
 }
 
 // Post noticias, não deixar habilitado
 func postRoutes(g *gin.RouterGroup) {
 	g.GET("/posts", controllers.PostIndex)
 	g.GET("/posts/:id", controllers.PostShow)
-	/* g.POST("/posts", controllers.PostCreate)
-	g.PUT("/posts/:id", controllers.PostUpdate)
-	g.PATCH("/posts/:id", controllers.PostUpdater)
-	g.DELETE("/posts/:id", controllers.PostUpdater) */
-
 }
