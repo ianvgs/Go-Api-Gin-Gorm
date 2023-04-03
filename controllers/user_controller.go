@@ -63,11 +63,10 @@ func CreateUser() gin.HandlerFunc {
 	}
 }
 
-func LoginPostHandler() gin.HandlerFunc {
+func ValidateLogin() gin.HandlerFunc {
 	return func(c *gin.Context) {
 
 		ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
-		var muser mongomodels.User
 		defer cancel()
 
 		session := sessions.Default(c)
@@ -77,19 +76,21 @@ func LoginPostHandler() gin.HandlerFunc {
 			return
 		}
 
+		var muser mongomodels.User
 		username := c.PostForm("username")
 		password := c.PostForm("password")
 
 		err := userCollection.FindOne(ctx, bson.M{"username": username, "password": password}).Decode(&muser)
 
 		if err != nil {
-			c.HTML(http.StatusInternalServerError, "login.html", gin.H{"content": "Houve algum erro, tente a senha novamente! :)"})
+			c.HTML(http.StatusBadRequest, "login.html", gin.H{"content": "Try again! :)"})
 			return
 		}
 
 		session.Set(globals.Userkey, username)
 		if err := session.Save(); err != nil {
-			c.HTML(http.StatusInternalServerError, "login.html", gin.H{"content": "Failed to save session"})
+			session.Delete(globals.Userkey)
+			c.HTML(http.StatusBadRequest, "login.html", gin.H{"content": "Failed to save session"})
 			return
 		}
 

@@ -1,56 +1,51 @@
 {{template "header.html" .}}
-<section class="section">
-    <div class="columns">
-        <div class="column"></div>
-        <div class="column is-one-third">
-            <form action="/login" method="post">
-                <div class="container" style="border: 1px solid lightgray; border-radius: 3px;padding: 15px;">
 
-                    {{if .content}}
-                    <div class="notification is-danger is-light">
-                        {{.content}}
-                    </div>
-                    {{end}}
-
-
-                    {{if .errorMsg}}
-                    <div class="notification is-danger is-light">
-                        {{.errorMsg}}
-                    </div>
-                    {{end}}
-
-                    {{if .successMsg}}
-                    <div class="notification is-danger is-light">
-                        {{.successMsg}}
-                    </div>
-                    {{end}}
-
-                    <h1 style="align-items: center;"
-                    >Login</h1>
-
-                    <div class="field">
-                        <label class="label">Username</label>
-                        <div class="control">
-                            <input class="input" type="text" placeholder="Enter Username" name="username" required>
-                        </div>
-                    </div>
-                    
-
-                    <div class="field">
-                        <label class="label">Password</label>
-                        <div class="control">
-                            <input class="input" type="password" placeholder="Enter Password" name="password" required>
-                        </div>
-                    </div>
-
-                    <div class="field">
-                        <button class="button is-link">Login</button>
-                    </div>
-
+<body>
+    <section class="hero is-flex">
+        <div class="hero-body has-text-centered" style=" justify-content: center;">
+            <div class="login" style="border-radius: 25px;
+            padding: 1.5rem;
+            box-shadow: 8px 8px 15px var(--shadowDark), -8px -8px 15px var(--shadowLight);">
+                {{ if .content}}
+                <div class="notification is-info is-light">
+                    {{.content}}
                 </div>
-            </form>
+                {{end}}
+
+                <a href="/">
+                    <img src="/assets/gopngg.png">
+                </a>
+                <form action="/login" method="post">
+
+                    <div class="field">
+                        <div class="control">
+                            <input class="input is-medium is-rounded" name="username" type="email"
+                                placeholder="email@example.com" autocomplete="username" required />
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <div class="control">
+                            <input class="input is-medium is-rounded" type="password" name="password"
+                                placeholder="**********" autocomplete="password" required />
+                        </div>
+                    </div>
+                    <br />
+                    <button class="button is-block is-fullwidth is-primary is-medium is-rounded" type="submit">
+                        Login
+                    </button>
+                </form>
+                <br>
+                <nav class="level">
+                    <div class="level-item has-text-centered">
+                        <div>
+                            Forgot Password?
+                        </div>
+                    </div>
+                </nav>
+            </div>
         </div>
-        <div class="column"></div>
-    </div>
-</section>
-{{template "footer.html" .}}
+    </section>
+</body>
+
+{{template "footer.html"}}

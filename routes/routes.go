@@ -57,11 +57,11 @@ func HandleRequests() {
 }
 
 func publicRoutes(g *gin.RouterGroup) {
-	g.GET("/login", controllers.LoginGetHandler())
+	g.GET("/login", controllers.RenderLoginPage())
 	g.GET("/logout", controllers.LogoutGetHandler())
 	g.GET("/register", controllers.RegisterGetHandler())
 	g.GET("/about", controllers.AboutGetHandler())
-	g.POST("/login", controllers.LoginPostHandler())
+	g.POST("/login", controllers.ValidateLogin())
 	g.GET("/", controllers.IndexGetHandler())
 }
 

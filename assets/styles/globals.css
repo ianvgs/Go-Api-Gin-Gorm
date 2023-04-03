@@ -1,0 +1,84 @@
+* {
+    font-family: 'Nunito Sans', sans-serif;
+}
+
+
+
+:root {
+    --shadowDark: #00D6CB;
+    --shadowLight: #A1F0EC;
+    --background: #E4E9F2;
+    --dark-background: #1A5754;
+}
+
+body {
+    background: var(--background);
+}
+
+.footer {
+    padding: 1.5rem;
+    background: var(--dark-background);
+    justify-content: center;
+}
+
+.login {
+    border-radius: 25px;
+    padding: 1.5rem;
+    box-shadow: 8px 8px 15px var(--shadowDark), -8px -8px 15px var(--shadowLight);
+}
+
+input {
+    background: var(--shadowDark) !important;
+}
+
+a {
+    font-weight: 400;
+
+}
+
+.is-outlined {
+    margin-left: 5px;
+}
+
+.navbar {
+    background: var(--dark-background) !important;
+}
+
+.navbar-item {
+    color: var(--shadowLight) !important;
+}
+
+.navbar .navbar-item:hover {
+    background: transparent;
+}
+
+.hr-light {
+    background-color: var(--shadowDark) !important;
+}
+
+.is-primary {
+    background: var(--dark-background) !important;
+
+
+}
+
+.notification {
+    border-radius: 8px;   
+    box-shadow: 4px 4px 7px var(--shadowDark), -4px -4px 7px var(--shadowLight);
+}
+
+.is-divider {
+    background-color: var(--shadowLight) !important;
+}
+
+
+
+/* .navbar .navbar-item.is-active {
+    color: #e4e2ff;
+    font-weight: 700;
+}
+
+.navbar .navbar-item a {
+    margin-left: 1rem;
+    color: #e4e2ff;
+} */
