@@ -1,6 +1,6 @@
 {{template "header.html" .}}
-<div class="columns" style="margin-left: 1rem; margin-top: 1rem;">
-    <aside class="column is-2 aside hero">
+<div class="columns container" style="margin-left: 1rem; margin-top: 1rem;">
+    <aside class=" column is-2 aside hero">
         <aside class="menu">
             <p class="menu-label;">
             <h1 style="font-size: x-large;">Categorias</h1>
@@ -8,7 +8,7 @@
             <ul class="menu-list">
                 {{range $index, $element := .categorias}}
                 <li>
-                    <a style="padding:0%; margin-top:5px ;">
+                    <a href="category/{{$element.Id}}" style="padding:0%; margin-top:5px ;">
                         <span style="display: block; text-align: center; " class="{{index $.colors $index}}">
                             {{ToUpper $element.Nome}}
                         </span>
@@ -74,7 +74,7 @@
                 {{end}}
         </div>
     </div>
-    <div class="column is-2 message hero  ">
+    <div class="column is-5 message hero  ">
     </div>
 </div>
 

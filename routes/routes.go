@@ -63,6 +63,8 @@ func publicRoutes(g *gin.RouterGroup) {
 	g.GET("/about", controllers.AboutGetHandler())
 	g.POST("/login", controllers.ValidateLogin())
 	g.GET("/", controllers.IndexGetHandler())
+	g.GET("/category/:id", controllers.CategoryShow())
+	g.GET("/news/:id", controllers.NewsShow())
 }
 
 func privateRoutes(g *gin.RouterGroup) {

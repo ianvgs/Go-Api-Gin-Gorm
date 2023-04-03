@@ -7,6 +7,7 @@ import (
 	"goagain/models"
 	"log"
 	"net/http"
+	"reflect"
 	"time"
 
 	"github.com/gin-contrib/sessions"
@@ -39,7 +40,7 @@ func IndexGetHandler() gin.HandlerFunc {
 	initializers.DB.Find(&categorias)
 	categorias = append(categorias, models.Categoria{
 		Id:        1,
-		Nome:      "MockCategNome",
+		Nome:      "Mocked Category",
 		Descricao: "categMock",
 	})
 
@@ -77,6 +78,39 @@ func AboutGetHandler() gin.HandlerFunc {
 		c.HTML(http.StatusOK, "about.html", gin.H{
 			"content": "",
 			"user":    user,
+		})
+	}
+}
+
+func CategoryShow() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		id := c.Param("id")
+		var categoryNews models.Noticia
+		initializers.DB.Where("idCategoria = ?", id).Limit(1).Find(&categoryNews)
+
+		if reflect.DeepEqual(categoryNews, models.Noticia{}) {
+			c.Redirect(http.StatusMovedPermanently, "/")
+			return
+		}
+
+		c.HTML(http.StatusOK, "categoryNews.html", gin.H{
+			"content":      "",
+			"param_id":     id,
+			"categoryNews": categoryNews,
+		})
+	}
+}
+
+func NewsShow() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		id := c.Param("id")
+		var news models.Noticia
+		initializers.DB.First(&news, id)
+
+		c.HTML(http.StatusOK, "newsShow.html", gin.H{
+			"content":  "",
+			"param_id": id,
+			"news":     news,
 		})
 	}
 }
