@@ -7,7 +7,7 @@ import (
 
 func CheckUserPass(username, password string) bool {
 	userpass := make(map[string]string)
-	userpass["hello"] = "itsme"
+	userpass["Johnny"] = "Pazz'word"
 
 	log.Println("checkUserPass", username, password, userpass)
 

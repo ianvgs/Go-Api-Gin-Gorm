@@ -2,6 +2,8 @@ package controllers
 
 import (
 	"context"
+	"fmt"
+	"goagain/globals"
 	"goagain/initializers"
 
 	//possivel erro no futuro, deixar tudo no mesmo nome, seila
@@ -10,6 +12,7 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"
 	"go.mongodb.org/mongo-driver/bson"
@@ -22,28 +25,43 @@ var validate = validator.New()
 
 func CreateUser() gin.HandlerFunc {
 	return func(c *gin.Context) {
+		session := sessions.Default(c)
+		username := c.PostForm("username")
+		password := c.PostForm("password")
+
+		//debuggin
+		body, err := c.GetRawData()
+		if err != nil {
+			c.String(500, fmt.Sprintf("Error getting request body: %s", err.Error()))
+			return
+		}
+		fmt.Printf("Request body: %s\n", string(body))
+		//debuggin
+
 		ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
-		var user mongomodels.User
+		/* var user mongomodels.User */
 		defer cancel()
 
 		//validate the request body
-		if err := c.BindJSON(&user); err != nil {
+		/* if err := c.BindJSON(&user); err != nil {
 			c.JSON(http.StatusBadRequest, responses.UserResponse{Status: http.StatusBadRequest, Message: "error", Data: map[string]interface{}{"data": err.Error()}})
 			return
-		}
+		} */
 
 		//use the validator library to validate required fields
-		if validationErr := validate.Struct(&user); validationErr != nil {
+		/* if validationErr := validate.Struct(&user); validationErr != nil {
 			c.JSON(http.StatusBadRequest, responses.UserResponse{Status: http.StatusBadRequest, Message: "error", Data: map[string]interface{}{"data": validationErr.Error()}})
 			return
-		}
+		} */
 
 		newUser := mongomodels.User{
 			Id:       primitive.NewObjectID(),
-			Name:     user.Name,
-			Location: user.Location,
-			Title:    user.Title,
+			Username: username,
+			Password: password,
 		}
+
+		fmt.Printf("username: %s\n", username)
+		fmt.Printf("password: %s\n", password)
 
 		result, err := userCollection.InsertOne(ctx, newUser)
 		if err != nil {
@@ -51,11 +69,65 @@ func CreateUser() gin.HandlerFunc {
 			return
 		}
 
-		c.JSON(http.StatusCreated, responses.UserResponse{Status: http.StatusCreated, Message: "success", Data: map[string]interface{}{"data": result}})
+		fmt.Printf("Result: %s\n", result)
+		session.Set(globals.SuccessMsg, result)
+		session.Save()
+		c.Redirect(http.StatusMovedPermanently, "/login")
+
+		/* c.JSON(http.StatusCreated, responses.UserResponse{Status: http.StatusCreated, Message: "success", Data: map[string]interface{}{"data": result}}) */
 	}
 }
 
-func GetAUser() gin.HandlerFunc {
+func LoginPostHandler() gin.HandlerFunc {
+	return func(c *gin.Context) {
+
+		ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+		var muser mongomodels.User
+		defer cancel()
+
+		session := sessions.Default(c)
+		user := session.Get(globals.Userkey)
+		if user != nil {
+			c.HTML(http.StatusBadRequest, "login.html", gin.H{"content": "Please logout first"})
+			return
+		}
+
+		username := c.PostForm("username")
+		password := c.PostForm("password")
+
+		/* if helpers.EmptyUserPass(username, password) {
+			c.HTML(http.StatusBadRequest, "login.html", gin.H{"content": "Parameters can't be empty"})
+			return
+		} */
+
+		/* if !helpers.CheckUserPass(username, password) {
+			c.HTML(http.StatusUnauthorized, "login.html", gin.H{"content": "Incorrect username or password"})
+			return
+		} */
+
+		filter := bson.M{"username": username, "password": password}
+		/* 	err := userCollection.FindOne(ctx, filter).Decode(&muser) */
+
+		err := userCollection.FindOne(ctx, filter).Decode(&muser)
+
+		if err != nil {
+			c.HTML(http.StatusInternalServerError, "login.html", gin.H{"content": "Houve algum erro, tente a senha novamente! :)"})
+			//abaixo sao erros que quebram a aplicacao
+			/* c.JSON(http.StatusInternalServerError, responses.UserResponse{Status: http.StatusInternalServerError, Message: "error", Data: map[string]interface{}{"data": err.Error()}})
+			 */return
+		}
+
+		session.Set(globals.Userkey, username)
+		if err := session.Save(); err != nil {
+			c.HTML(http.StatusInternalServerError, "login.html", gin.H{"content": "Failed to save session"})
+			return
+		}
+
+		c.Redirect(http.StatusMovedPermanently, "/dashboard")
+	}
+}
+
+/* func GetAUser() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 		userId := c.Param("userId")
@@ -73,16 +145,8 @@ func GetAUser() gin.HandlerFunc {
 
 		c.JSON(http.StatusOK, responses.UserResponse{Status: http.StatusOK, Message: "success", Data: map[string]interface{}{"data": user}})
 
-		/* res := map[string]interface{}{"data": user}
-
-		if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"message": err})
-		return
-		}
-
-		c.JSON(http.StatusCreated, gin.H{"message": "success!", "Data": res}) */
 	}
-}
+} */
 
 func EditAUser() gin.HandlerFunc {
 	return func(c *gin.Context) {
@@ -104,7 +168,7 @@ func EditAUser() gin.HandlerFunc {
 			return
 		}
 
-		update := bson.M{"name": user.Name, "location": user.Location, "title": user.Title}
+		update := bson.M{"username": user.Username, "password": user.Password}
 		result, err := userCollection.UpdateOne(ctx, bson.M{"id": objId}, bson.M{"$set": update})
 		if err != nil {
 			c.JSON(http.StatusInternalServerError, responses.UserResponse{Status: http.StatusInternalServerError, Message: "error", Data: map[string]interface{}{"data": err.Error()}})

@@ -18,6 +18,10 @@ func Subt(a, b int) int {
 
 func HandleRequests() {
 	r := gin.Default()
+	//debugger
+	gin.SetMode(gin.DebugMode)
+	r.Use(gin.Logger())
+	//debugger
 	r.SetFuncMap(template.FuncMap{
 		"ToUpper": strings.ToUpper,
 		"Subt":    Subt,
@@ -38,6 +42,7 @@ func HandleRequests() {
 
 	private := r.Group("/")
 	private.Use(middleware.AuthRequired)
+
 	privateRoutes(private)
 
 	r.Run()
@@ -59,7 +64,7 @@ func privateRoutes(g *gin.RouterGroup) {
 // User Module MONGODB
 func userRoutes(g *gin.RouterGroup) {
 	g.POST("/user", controllers.CreateUser())
-	g.GET("/user/:userId", controllers.GetAUser())
+	/* 	g.GET("/user/:userId", controllers.GetAUser()) */
 	g.PUT("/user/:userId", controllers.EditAUser())
 	g.DELETE("/user/:userId", controllers.DeleteAUser())
 	g.GET("/users", controllers.GetAllUsers())

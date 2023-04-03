@@ -3,17 +3,16 @@
     <div class="columns">
         <div class="column"></div>
         <div class="column is-one-third">
-
             <form action="/user" method="post">
-
                 <div class="container" style="border: 1px solid lightgray; border-radius: 3px;padding: 15px;">
 
                     {{if .content}}
                     <div class="notification is-danger is-light">
                         {{.content}}
                     </div>
-
                     {{end}}
+
+                    <h1 style="align-items: center;">Register</h1>
 
                     <div class="field">
                         <label class="label">Username</label>
@@ -29,6 +28,8 @@
                         </div>
                     </div>
 
+
+
                     <div class="field">
                         <button class="button is-link">Submit</button>
                     </div>
@@ -39,4 +40,4 @@
         <div class="column"></div>
     </div>
 </section>
-{{template "footer.html"}}
+{{template "footer.html" .}}
