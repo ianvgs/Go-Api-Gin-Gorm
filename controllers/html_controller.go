@@ -14,7 +14,7 @@ import (
 )
 
 func IndexGetHandler() gin.HandlerFunc {
-	colors := []string{"tag is-primary is-medium block", "tag is-link is-medium ", "tag is-light is-danger is-medium", "tag is-dark is-medium ", "tag is-success is-medium ", "tag is-warning is-medium "}
+	colors := []string{"tag is-primary is-medium block", "tag is-dark is-medium ", "tag is-success is-medium"}
 
 	var noticias []models.Noticia
 	initializers.DB.Unscoped().Preload("Colaborador").Limit(5).Find(&noticias)
@@ -49,7 +49,7 @@ func IndexGetHandler() gin.HandlerFunc {
 
 	return func(c *gin.Context) {
 		session := sessions.Default(c)
-		user := session.Get(globals.Userkey)
+		user := session.Get(globals.UserKey)
 
 		c.HTML(http.StatusOK, "index.html", gin.H{
 			"content":    "This is an index page...",
@@ -65,7 +65,7 @@ func IndexGetHandler() gin.HandlerFunc {
 func AboutGetHandler() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		session := sessions.Default(c)
-		user := session.Get(globals.Userkey)
+		user := session.Get(globals.UserKey)
 		if user != nil {
 			c.HTML(http.StatusBadRequest, "about.html",
 				gin.H{
@@ -84,18 +84,15 @@ func AboutGetHandler() gin.HandlerFunc {
 func RenderLoginPage() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		session := sessions.Default(c)
-		errorMsg := session.Get(globals.ErrorMsg)
-
-		user := session.Get(globals.Userkey)
+		user := session.Get(globals.UserKey)
 
 		if user != nil {
-			c.Redirect(http.StatusBadRequest, "/")
+			c.Redirect(http.StatusMovedPermanently, "/")
 			return
 
 		}
 		c.HTML(http.StatusOK, "login.html", gin.H{
-			"user":     user,
-			"errorMsg": errorMsg,
+			"content": "",
 		})
 	}
 }
@@ -103,13 +100,9 @@ func RenderLoginPage() gin.HandlerFunc {
 func RegisterGetHandler() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		session := sessions.Default(c)
-		user := session.Get(globals.Userkey)
+		user := session.Get(globals.UserKey)
 		if user != nil {
-			c.HTML(http.StatusBadRequest, "login.html",
-				gin.H{
-					"content": "Please logout first",
-					"user":    user,
-				})
+			c.Redirect(http.StatusMovedPermanently, "/")
 			return
 		}
 		c.HTML(http.StatusOK, "register.html", gin.H{
@@ -121,7 +114,7 @@ func RegisterGetHandler() gin.HandlerFunc {
 func LogoutGetHandler() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		session := sessions.Default(c)
-		user := session.Get(globals.Userkey)
+		user := session.Get(globals.UserKey)
 
 		log.Println("logging out user:", user)
 		if user == nil {
@@ -129,13 +122,13 @@ func LogoutGetHandler() gin.HandlerFunc {
 			return
 		}
 
-		session.Delete(globals.Userkey)
+		session.Set(globals.UserKey, "")
 		if err := session.Save(); err != nil {
 			log.Println("Failed to save session:", err)
 			return
 		}
 
-		c.Redirect(http.StatusOK, "/")
+		c.Redirect(http.StatusMovedPermanently, "/")
 
 	}
 }
@@ -143,7 +136,8 @@ func LogoutGetHandler() gin.HandlerFunc {
 func DashboardGetHandler() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		session := sessions.Default(c)
-		user := session.Get(globals.Userkey)
+		user := session.Get(globals.UserKey)
+		fmt.Println("user:", user)
 		c.HTML(http.StatusOK, "dashboard.html", gin.H{
 			"content": "This is a dashboard",
 			"user":    user,

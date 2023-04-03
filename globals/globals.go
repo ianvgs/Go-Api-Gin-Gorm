@@ -2,7 +2,7 @@ package globals
 
 var Secret = []byte("secret")
 
-const Userkey = ""
+const UserKey = ""
 const ErrorMsg = ""
 const SuccessMsg = ""
 

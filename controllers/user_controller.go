@@ -65,12 +65,44 @@ func CreateUser() gin.HandlerFunc {
 
 func ValidateLogin() gin.HandlerFunc {
 	return func(c *gin.Context) {
+		ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+		defer cancel()
+
+		session := sessions.Default(c)
+		if user := session.Get(globals.UserKey); user != nil {
+			c.HTML(http.StatusBadRequest, "login.html", gin.H{"content": "Please logout first"})
+			return
+		}
+
+		var muser mongomodels.User
+		if err := c.ShouldBind(&muser); err != nil {
+			c.HTML(http.StatusBadRequest, "login.html", gin.H{"content": "Invalid request payload"})
+			return
+		}
+
+		if err := userCollection.FindOne(ctx, bson.M{"username": muser.Username, "password": muser.Password}).Decode(&muser); err != nil {
+			c.HTML(http.StatusUnauthorized, "login.html", gin.H{"content": "Credentials are wrong! :)"})
+			return
+		}
+
+		session.Set(globals.UserKey, c.PostForm("username"))
+		if err := session.Save(); err != nil {
+			c.HTML(http.StatusInternalServerError, "login.html", gin.H{"content": "Failed to save session"})
+			return
+		}
+
+		c.Redirect(http.StatusMovedPermanently, "/dashboard")
+	}
+}
+
+/* func ValidateLogin() gin.HandlerFunc {
+	return func(c *gin.Context) {
 
 		ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 		defer cancel()
 
 		session := sessions.Default(c)
-		user := session.Get(globals.Userkey)
+		user := session.Get(globals.UserKey)
 		if user != nil {
 			c.HTML(http.StatusBadRequest, "login.html", gin.H{"content": "Please logout first"})
 			return
@@ -83,20 +115,20 @@ func ValidateLogin() gin.HandlerFunc {
 		err := userCollection.FindOne(ctx, bson.M{"username": username, "password": password}).Decode(&muser)
 
 		if err != nil {
-			c.HTML(http.StatusBadRequest, "login.html", gin.H{"content": "Try again! :)"})
+			c.HTML(http.StatusUnauthorized, "login.html", gin.H{"content": "Credentials are wrong! :)"})
 			return
 		}
 
-		session.Set(globals.Userkey, username)
+		session.Set(globals.UserKey, username)
+
 		if err := session.Save(); err != nil {
-			session.Delete(globals.Userkey)
-			c.HTML(http.StatusBadRequest, "login.html", gin.H{"content": "Failed to save session"})
+			c.HTML(http.StatusInternalServerError, "login.html", gin.H{"content": "Failed to save session"})
 			return
 		}
 
 		c.Redirect(http.StatusMovedPermanently, "/dashboard")
 	}
-}
+} */
 
 /* func GetAUser() gin.HandlerFunc {
 	return func(c *gin.Context) {

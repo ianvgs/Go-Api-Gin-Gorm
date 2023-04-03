@@ -5,7 +5,7 @@
             <p class="menu-label;">
             <h1 style="font-size: x-large;">Categorias</h1>
             </p>
-            <ul class="menu-list" style="justify-content: space-between;">
+            <ul class="menu-list">
                 {{range $index, $element := .categorias}}
                 <li>
                     <a style="padding:0%; margin-top:5px ;">
@@ -15,12 +15,8 @@
                     </a>
                 </li>
                 {{end}}
-                <li><a style="padding:0%; margin-top:5px ;">
-                        <span style=" display: block;text-align: center;"
-                            class="tag is-link is-medium ">CUSTOMERS</span>
-                    </a></li>
-                <li><a style="padding:0%; margin-top:5px ;"><span style="display: block;text-align: center; "
-                            class="tag is-light is-danger is-medium ;">AUTHENTICATION</span></a></li>
+
+
                 <li><a style="padding:0%; margin-top:5px ;"><span style="display: block;text-align: center;"
                             class="tag is-dark is-medium ">PAYMENTS</span></a></li>
                 <li><a style="padding:0%; margin-top:5px ;"><span style="display: block;text-align: center; "

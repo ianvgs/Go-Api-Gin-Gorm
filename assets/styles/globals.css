@@ -71,6 +71,15 @@ a {
     background-color: var(--shadowLight) !important;
 }
 
+.button-login{
+    color: var(--shadowLight) !important;
+}
+
+.button-login:hover{
+    background-color: var(--shadowLight) !important;
+    color: var(--dark-background) !important;
+}
+
 
 
 /* .navbar .navbar-item.is-active {

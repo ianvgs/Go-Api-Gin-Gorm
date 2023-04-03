@@ -4,6 +4,7 @@ import (
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
 
+	"goagain/globals"
 	"log"
 	"net/http"
 )
@@ -12,11 +13,16 @@ import (
 
 func AuthRequired(c *gin.Context) {
 	session := sessions.Default(c)
-	user := session.Get("user")
+	user := session.Get(globals.UserKey)
 	if user == nil {
-		log.Println("User not logged in")
+		log.Println("User not logged in: user:", user)
+		c.Redirect(http.StatusMovedPermanently, "/login")
+		c.Abort()
+		return
+	}
 
-		session.Save()
+	if user == "" {
+		log.Println("User not logged in: user:", user)
 		c.Redirect(http.StatusMovedPermanently, "/login")
 		c.Abort()
 		return

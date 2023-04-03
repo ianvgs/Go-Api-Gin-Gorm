@@ -1,10 +1,9 @@
 {{template "header.html" .}}
 <section class="columns">
-    <div class="column is-one-fifth">{{template "menu.html" .}}</div>
+    <div class="column is-one-fifth">{{template "menu.html"}}</div>
     <div class="column is-four-fifth" style="background-color: whitesmoke">
-        <p style="background-color: whitesmoke; padding: 10px;">{{.user}}</p>
-        <p style="background-color: whitesmoke; padding: 10px;">{{.content}}</p>
-        <p style="background-color: whitesmoke; padding: 10px;">{{.user}}</p>
+         <p style="background-color: whitesmoke; padding: 10px;">{{.content}}</p>
+            <p style="background-color: whitesmoke; padding: 10px;">{{.}}</p>
     </div>
 </section>
-{{template "footer.html" .}}
+{{template "footer.html"}}
