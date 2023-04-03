@@ -85,8 +85,8 @@ func AboutGetHandler() gin.HandlerFunc {
 func CategoryShow() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		id := c.Param("id")
-		var categoryNews models.Noticia
-		initializers.DB.Where("idCategoria = ?", id).Limit(1).Find(&categoryNews)
+		var categoryNews []models.Noticia
+		initializers.DB.Where("idCategoria = ?", id).Limit(3).Find(&categoryNews)
 
 		if reflect.DeepEqual(categoryNews, models.Noticia{}) {
 			c.Redirect(http.StatusMovedPermanently, "/")
