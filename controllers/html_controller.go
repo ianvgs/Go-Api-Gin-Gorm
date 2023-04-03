@@ -107,6 +107,11 @@ func NewsShow() gin.HandlerFunc {
 		var news models.Noticia
 		initializers.DB.First(&news, id)
 
+		if reflect.DeepEqual(news, models.Noticia{}) {
+			c.Redirect(http.StatusMovedPermanently, "/")
+			return
+		}
+
 		c.HTML(http.StatusOK, "newsShow.html", gin.H{
 			"content":  "",
 			"param_id": id,
