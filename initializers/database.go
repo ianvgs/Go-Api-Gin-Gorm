@@ -29,11 +29,17 @@ var DB *gorm.DB
 
 func ConnectToDB() /* Database */ {
 
-	DB_USERNAME := "root"
+	/* DB_USERNAME := "root"
 	DB_PASSWORD := "genuine123"
 	DB_HOST := "awsian.ct8srtp2hhm0.us-east-1.rds.amazonaws.com"
 	DB_NAME := "aws"
-	DB_PORT := "3306"
+	DB_PORT := "3306" */
+
+	const DB_USERNAME = "root"
+	const DB_PASSWORD = ""
+	const DB_NAME = "news_database"
+	const DB_HOST = "127.0.0.1"
+	const DB_PORT = "3306"
 
 	var err error
 

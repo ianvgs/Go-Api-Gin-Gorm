@@ -15,14 +15,31 @@ import (
 )
 
 func IndexGetHandler() gin.HandlerFunc {
+	//Declara e inicializa as arrays: colors/noticias/categorias com strings e "modelObjects"
 	colors := []string{"tag is-primary is-medium block", "tag is-dark is-medium ", "tag is-success is-medium"}
-
 	var noticias []models.Noticia
-	initializers.DB.Unscoped().Preload("Colaborador").Limit(5).Find(&noticias)
+	var categorias []models.Categoria
+
+	//busca dados das tabelas noticias e categorias
+	initializers.DB.Unscoped().Preload("Colaborador").Limit(3).Find(&noticias)
+	initializers.DB.Find(&categorias)
+
+	/* fmt.Println("Noticias:", noticias) */
+	/* for _, noticia := range noticias {
+		fmt.Println("Título:", noticia.Colaborador)
+	} */
+
+	//Mocks de noticias & categorias
+	categorias = append(categorias, models.Categoria{
+		Id:        1,
+		Nome:      "Mocked One",
+		Descricao: "categMock",
+	})
+
 	noticias = append(noticias, models.Noticia{
 		Id:            1,
 		ColaboradorId: 1,
-		Titulo:        "mockTitulo",
+		Titulo:        "MockTitulo na controller + 3 records do DB acima, ou erro",
 		Resumo:        "mockResumo",
 		Texto:         "mockTexto",
 		IdCategoria:   1,
@@ -31,21 +48,11 @@ func IndexGetHandler() gin.HandlerFunc {
 		UpdatedAt:     time.Date(2023, 4, 2, 10, 30, 0, 0, time.UTC),
 	})
 
-	fmt.Println("Noticias:", noticias)
-	/* for _, noticia := range noticias {
-		fmt.Println("Título:", noticia.Colaborador)
-	} */
-
-	var categorias []models.Categoria
-	initializers.DB.Find(&categorias)
-	categorias = append(categorias, models.Categoria{
-		Id:        1,
-		Nome:      "Mocked Category",
-		Descricao: "categMock",
-	})
-
-	for _, categoria := range categorias {
-		fmt.Println("categoria:", categoria)
+	// Cria um novo array com a quantidade de elementos de categorias com as cores de colors, pode ser assim: colorArray := make([]string, 4)
+	colorArray := make([]string, len(categorias))
+	for i := 0; i < len(colorArray); i++ {
+		colorIndex := i % len(colors)
+		colorArray[i] = colors[colorIndex]
 	}
 
 	return func(c *gin.Context) {
@@ -57,7 +64,7 @@ func IndexGetHandler() gin.HandlerFunc {
 			"user":       user,
 			"posts":      noticias,
 			"categorias": categorias,
-			"colors":     colors,
+			"colors":     colorArray,
 		})
 
 	}
