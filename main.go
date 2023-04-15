@@ -9,7 +9,6 @@ func init() {
 	initializers.LoadEnvVariables()
 	initializers.ConnectToDB()
 	initializers.ConnectMongoDB()
-
 }
 
 func main() {

@@ -1,6 +1,6 @@
 {{template "header.html" .}}
-<div class="columns container" style="margin-left: 1rem; margin-top: 1rem;">
-    <aside class=" column is-2 aside hero">
+<div class="columns container is-flex " style="margin-left: 1rem; margin-top: 1rem;">
+    <aside class="column is-2 aside hero">
         <aside class="menu">
             <p class="menu-label;">
             <h1 style="font-size: x-large;">Categorias</h1>
@@ -21,17 +21,17 @@
             </ul>
         </aside>
 
-        <div>
+        <!-- <div>
             <a href="#" class="item active block"><span class="icon"><i class="fa fa-inbox block"></i></span><span
                     class="name">Inbox</span></a>
             <a href="#" class="item"><span class="icon"><i class="fa fa-star"></i></span><span
                     class="name">Starred</span></a>
             <a href="#" class="item"><span class="icon"><i class="fa fa-envelope-o"></i></span><span class="name">Sent
                     Mail</span></a>
-        </div>
+        </div> -->
 
     </aside>
-    <div class="column is-8 messages hero ">
+    <div class="column is-8 messages hero">
         <div class=" box content">
             {{range $index, $element := .posts}}
 
@@ -70,7 +70,7 @@
                 {{end}}
         </div>
     </div>
-    <div class="column is-5 message hero  ">
+    <div class="column is-3 message hero">
     </div>
 </div>
 
