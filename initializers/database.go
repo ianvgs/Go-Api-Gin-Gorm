@@ -41,9 +41,9 @@ func ConnectToDB() {
 	DB, err = gorm.Open(mysql.Open(dsn), &gorm.Config{})
 
 	//Desse jeito ele não deixa a aplicação rodar
-	if err != nil {
+	/* if err != nil {
 		log.Fatal("Erro ao conectar ao banco de dados")
-	}
+	} */
 
 	if err != nil {
 		log.Println("Erro ao conectar ao banco de dados:", err)
