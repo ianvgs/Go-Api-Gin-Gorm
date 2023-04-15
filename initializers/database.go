@@ -35,7 +35,7 @@ func ConnectToDB() /* Database */ {
 	DB_NAME := "aws"
 	DB_PORT := "3306" */
 
-	const DB_USERNAME = "root"
+	const DB_USERNAME = "roots"
 	const DB_PASSWORD = ""
 	const DB_NAME = "news_database"
 	const DB_HOST = "127.0.0.1"
@@ -48,10 +48,17 @@ func ConnectToDB() /* Database */ {
 	/* dsn := awsURIMYSQL() */
 	DB, err = gorm.Open(mysql.Open(dsn), &gorm.Config{})
 
-	//no padrão ele faz db, err := cria o db e o erro ao mesmo tempo
+	//Desse jeito ele não deixa a aplicação rodar
+	/* if err != nil {
+		log.Fatal("Erro ao conectar ao banco de dados")
+	} */
 
 	if err != nil {
-		log.Fatal("Erro ao conectar ao banco de dados")
+		log.Println("Erro ao conectar ao banco de dados:", err)
+		// handle the error here, for example:
+		// return an error message to the user
+		// retry the connection after a certain amount of time
+		/* By using log.Println instead of log.Fatal, the program will continue running even if the database connection fails. You can then handle the error in a way that makes sense for your application, such as showing an error message to the user or retrying the connection after a certain amount of time. */
 	}
 
 	/* DB.AutoMigrate(&models.Post{}) */
