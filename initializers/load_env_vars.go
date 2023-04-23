@@ -8,8 +8,10 @@ import (
 )
 
 func LoadEnvVariables() {
+	varMode := os.Getenv("GO_ENV")
+	log.Println("MODE:", varMode)
 
-	if os.Getenv("GO_ENV") == "production" {
+	if os.Getenv("GO_ENV") != "production" {
 		err := godotenv.Load()
 
 		if err != nil {
