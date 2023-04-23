@@ -13,12 +13,13 @@ var DB *gorm.DB
 
 func envMySqlString() string {
 
-	err := godotenv.Load()
-	if err != nil {
-		log.Fatal("Error loading .env file")
-	}
+	if os.Getenv("GO_ENV") == "production" {
+		err := godotenv.Load()
+		if err != nil {
+			log.Fatal("Error loading .env file at envMySqlString. DEV_MODE")
+		}
 
-	log.Println("Error:", err)
+	}
 
 	DB_USERNAME := os.Getenv("DB_USERNAME")
 	DB_PASSWORD := os.Getenv("DB_PASSWORD")

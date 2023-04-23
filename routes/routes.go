@@ -5,7 +5,10 @@ import (
 	"goagain/globals"
 	"goagain/helpers"
 	"goagain/middleware"
+	"log"
 	"net/http"
+	"os"
+	"path/filepath"
 	"strings"
 	"text/template"
 
@@ -16,9 +19,6 @@ import (
 
 func HandleRequests() {
 	r := gin.Default()
-	//Middleware debugger
-	gin.SetMode(gin.DebugMode)
-	r.Use(gin.Logger())
 
 	//Funcoes pra serem usadas nos HTML
 	r.SetFuncMap(template.FuncMap{
@@ -34,9 +34,6 @@ func HandleRequests() {
 		}
 	})
 
-	//Configs
-	r.Static("/assets", "./assets")
-	r.LoadHTMLGlob("templates/*.html")
 	r.Use(sessions.Sessions("session", cookie.NewStore(globals.Secret)))
 
 	public := r.Group("/")
@@ -53,6 +50,27 @@ func HandleRequests() {
 
 	privateRoutes(private)
 
+	if os.Getenv("GO_ENV") == "production" {
+		// Get the absolute path to the executable
+		executablePath, err := os.Executable()
+		if err != nil {
+			log.Fatalf("Error getting executable path: %s", err)
+		}
+		executableDir := filepath.Dir(executablePath)
+		r.Static("/assets", filepath.Join(executableDir, "assets"))
+		r.LoadHTMLGlob(filepath.Join(executableDir, "templates/*.html"))
+
+	}
+
+	if os.Getenv("GO_ENV") != "production" {
+		//Middleware debugger
+		gin.SetMode(gin.DebugMode)
+		r.Use(gin.Logger())
+
+		//Configs
+		r.Static("/assets", "./assets")
+		r.LoadHTMLGlob("templates/*.html")
+	}
 	r.Run()
 }
 
