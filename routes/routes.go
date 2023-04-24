@@ -57,8 +57,7 @@ func HandleRequests() {
 			log.Fatalf("Error getting executable path: %s", err)
 		}
 		executableDir := filepath.Dir(executablePath)
-		r.Static("/js", filepath.Join(executableDir, "js"))
-		r.Static("/assets", filepath.Join(executableDir, "assets"))
+		r.Static("/assets", filepath.Join(executableDir, "./assets"))
 		r.LoadHTMLGlob(filepath.Join(executableDir, "templates/*.html"))
 
 	}
@@ -69,8 +68,8 @@ func HandleRequests() {
 		r.Use(gin.Logger())
 
 		//Configs
-		r.Static("/js", "./js")
 		r.Static("/assets", "./assets")
+		r.Static("/js", "./js")
 		r.LoadHTMLGlob("templates/*.html")
 	}
 	r.Run()
