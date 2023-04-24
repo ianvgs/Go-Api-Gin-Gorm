@@ -1,26 +1,65 @@
 {{define "navbar.html"}}
 
-<nav class="navbar">
+<div class="hero-head">
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-brand" style="display: flex;
+            justify-content: center;
+            align-items: center;">
+                <a class="navbar-item" href="../">
+                    <img src="/assets/gopngg.png">
+                </a>
+                <a class="button button-login is-info is-outlined" href="/">
+                    <span class="icon">
+                        <i class="fa fa-home"></i>
+                    </span>
+                    <span>Home</span>
+                </a>
+                <a class="button button-login is-info is-outlined" href="/about">
+                    <span class="icon">
+                        <i class="fa fa-book"></i>
+                    </span>
+                    <span>About me</span>
+                </a>
+                <div class="navbar-burger burger" data-target="navbarMenu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
 
-    <div class="navbar-brand">
-        <a class="navbar-item" href="../">
-            <img src="/assets/gopngg.png">
-        </a>
-        <div class="navbar-burger burger" data-target="topNav">
-            <span></span>
-            <span></span>
-            <span></span>
-        </div>
-    </div>
-    <div id="topNav" class="navbar-menu">
-        <div class="navbar-start">
-            <a class="navbar-item" href="/">Home</a>
-            <a class="navbar-item" href="about">About me</a>
-        </div>
-        <div class="navbar-end">
-            <div class="navbar-item">
-                <div class="field is-grouped">
+            </div>
+            <div id="navbarMenu" class="navbar-menu">
+                <div class="navbar-end">
+                    <!--   <span class="navbar-item">
+                        <a class="button is-white is-outlined" target="_blank"
+                            href="https://github.com/ianvgs/Go-Api-Gin-Gorm">
+                            <span class="icon">
+                                <i class="fa fa-github"></i>
+                            </span>
+                            <span>View Source</span>
+                        </a>
+                    </span> -->
+                    {{if not .user}}
+                    <span class="navbar-item">
+                        <a class="button" href="/register">
+                            <span class="icon">
+                                <i class="fa fa-user-plus"></i>
+                            </span>
+                            <span>
+                                Criar conta
+                            </span>
+                        </a>
+                    </span>
 
+                    <span class="navbar-item">
+                        <a class="button button-login is-info is-outlined" href="/login">
+                            <span class="icon">
+                                <i class="fa fa-user"></i>
+                            </span>
+                            <span>Login</span>
+                        </a>
+                    </span>
+                    {{end }}
                     {{if .user}}
                     <p class="control">
                         <a class="button is-info is-outlined" href="/logout">
@@ -31,32 +70,11 @@
                         </a>
                     </p>
                     {{end }}
-
-                    {{if not .user}}
-
-                    <a class="button" href="/register">
-                        <span class="icon">
-                            <i class="fa fa-user-plus"></i>
-                        </span>
-                        <span>
-                            Criar conta
-                        </span>
-                    </a>
-
-
-                    <a class="button button-login is-info is-outlined" href="/login">
-                        <span class="icon">
-                            <i class="fa fa-user"></i>
-                        </span>
-                        <span>Login</span>
-                    </a>
-
-                    {{end }}
                 </div>
             </div>
         </div>
-    </div>
-</nav>
+    </nav>
+</div>
 
 
 {{end}}

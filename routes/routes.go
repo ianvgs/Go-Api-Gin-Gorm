@@ -68,6 +68,7 @@ func HandleRequests() {
 		r.Use(gin.Logger())
 
 		//Configs
+		r.Static("/js", "./js")
 		r.Static("/assets", "./assets")
 		r.LoadHTMLGlob("templates/*.html")
 	}

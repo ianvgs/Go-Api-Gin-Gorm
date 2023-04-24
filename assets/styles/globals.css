@@ -63,7 +63,7 @@ a {
 }
 
 .notification {
-    border-radius: 8px;   
+    border-radius: 8px;
     box-shadow: 4px 4px 7px var(--shadowDark), -4px -4px 7px var(--shadowLight);
 }
 
@@ -71,23 +71,47 @@ a {
     background-color: var(--shadowLight) !important;
 }
 
-.button-login{
+.button-login {
     color: var(--shadowLight) !important;
 }
 
-.button-login:hover{
+.button-login:hover {
     background-color: var(--shadowLight) !important;
     color: var(--dark-background) !important;
 }
 
-
-
-/* .navbar .navbar-item.is-active {
-    color: #e4e2ff;
-    font-weight: 700;
+/* Style the navbar burger icon */
+.navbar-burger span {
+    background-color: #ffffff;
+    /* Set the background color */
 }
 
-.navbar .navbar-item a {
-    margin-left: 1rem;
-    color: #e4e2ff;
-} */
+/* Style the navbar X icon */
+.navbar-close span {
+    background-color: #ffffff;
+    /* Set the background color */
+}
+
+/* Style the navbar burger icon */
+.navbar-burger span {
+    background-color: #ffffff;
+    /* Set the default background color */
+}
+
+/* Style the navbar X icon */
+.navbar-close span {
+    background-color: #ffffff;
+    /* Set the default background color */
+}
+
+/* Change the color of the icons when the navbar is open */
+.navbar-burger.is-active span {
+    background-color: #ffffff;
+    /* Set the active background color */
+}
+
+/* Change the color of the icons when the navbar is open */
+.navbar-close.is-active span {
+    background-color: #ffffff;
+    /* Set the active background color */
+}

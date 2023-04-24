@@ -12,5 +12,6 @@ func init() {
 }
 
 func main() {
+
 	routes.HandleRequests()
 }
