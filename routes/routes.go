@@ -5,10 +5,8 @@ import (
 	"goagain/globals"
 	"goagain/helpers"
 	"goagain/middleware"
-	"log"
 	"net/http"
 	"os"
-	"path/filepath"
 	"strings"
 	"text/template"
 
@@ -50,18 +48,17 @@ func HandleRequests() {
 
 	privateRoutes(private)
 
-	if os.Getenv("GO_ENV") == "production" {
+	/* if os.Getenv("GO_ENV") == "production" {
 		// Get the absolute path to the executable
 		executablePath, err := os.Executable()
 		if err != nil {
 			log.Fatalf("Error getting executable path: %s", err)
 		}
 		executableDir := filepath.Dir(executablePath)
-		r.Static("/js", filepath.Join(executableDir, "/js"))
 		r.Static("/assets", filepath.Join(executableDir, "/assets"))
 		r.LoadHTMLGlob(filepath.Join(executableDir, "templates/*.html"))
 
-	}
+	} */
 
 	if os.Getenv("GO_ENV") != "production" {
 		//Middleware debugger
@@ -69,8 +66,8 @@ func HandleRequests() {
 		r.Use(gin.Logger())
 
 		//Configs
+
 		r.Static("/assets", "./assets")
-		r.Static("/js", "./js")
 		r.LoadHTMLGlob("templates/*.html")
 	}
 	r.Run()
