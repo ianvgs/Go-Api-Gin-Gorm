@@ -59,7 +59,7 @@ func HandleRequests() {
 		executableDir := filepath.Dir(executablePath)
 		r.Static("/js", filepath.Join(executableDir, "/js"))
 		r.Static("/assets", filepath.Join(executableDir, "/assets"))
-		r.LoadHTMLGlob(filepath.Join(executableDir, "/templates/*.html"))
+		r.LoadHTMLGlob(filepath.Join(executableDir, "templates/*.html"))
 
 	}
 
