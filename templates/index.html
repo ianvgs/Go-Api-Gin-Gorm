@@ -1,5 +1,5 @@
 {{template "header.html" .}}
-<div class="columns container is-flex " style="margin-left: 1rem; margin-top: 1rem;">
+<div class="columns" style="justify-content: center;">
     <aside class="column is-2 aside hero">
         <aside class="menu">
             <p class="menu-label;">
@@ -15,9 +15,6 @@
                     </a>
                 </li>
                 {{end}}
-
-
-
             </ul>
         </aside>
     </aside>
@@ -49,11 +46,7 @@
                         <div class="media-right">
                             <span class="has-text-grey-light"><i class="fa fa-comments"></i> 1</span>
                         </div>
-
-
                     </div>
-
-
                     {{if lt $index (Subt (len $.posts) 1) }}
                     <hr class="is-divider">
                     {{end}}
@@ -61,9 +54,10 @@
                 {{end}}
         </div>
     </div>
-    <div class="column is-3 message hero">
-    </div>
+
 </div>
+
+
 
 
 
