@@ -167,8 +167,8 @@ func LogoutGetHandler() gin.HandlerFunc {
 			log.Println("Invalid session token")
 			return
 		}
-
-		session.Set(globals.UserKey, "")
+		session.Delete(globals.UserKey)
+		/* session.Set(globals.UserKey, "") */
 		if err := session.Save(); err != nil {
 			log.Println("Failed to save session:", err)
 			return

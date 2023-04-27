@@ -1,9 +1,18 @@
 {{template "header.html" .}}
-<section class="columns">
+<!-- <section class="columns">
     <div class="column is-one-fifth">{{template "menu.html"}}</div>
     <div class="column is-four-fifth" style="background-color: whitesmoke">
          <p style="background-color: whitesmoke; padding: 10px;">{{.content}}</p>
-            <p style="background-color: whitesmoke; padding: 10px;">{{.}}</p>
+            <p style="background-color: whitesmoke; padding: 10px;"></p>
+    </div>
+</section> -->
+<section class="hero  " style=" height: 80vh">
+    <div class="hero-body">
+        <div class="container">
+            <h1 class="title">Welcome! {{.user}}</h1>
+            <p class="subtitle">Hi there! Thank you for logging in. We're happy to see you here.</p>
+            <p>Feel free to explore our app and let us know if you have any questions or feedback.</p>
+        </div>
     </div>
 </section>
 {{template "footer.html"}}
