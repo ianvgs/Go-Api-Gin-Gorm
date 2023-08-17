@@ -1,8 +1,3 @@
-### Alterações no banco de dados (inserção, exclusão de rows)
-sudo service newgo(servicedogo) restart
+You can check this project running at aws-ec2-ubuntu machine here: http://3.93.242.129.
 
-### Alterações de estilos (inserção, exclusão de rows)
-sudo service nginx? restart
-
-
-See your, yours Ian
+See you, yours Ian
