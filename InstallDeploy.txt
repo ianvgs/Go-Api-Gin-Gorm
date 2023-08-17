@@ -1,0 +1,107 @@
+//Quebrar MYSQL e PM2 pra não explodir a maquina.
+
+::LOGADO NO SUDO USER IAN
+cd /tmp      
+*tmp is a folder that is cleaned when restart system
+
+::Download estando na pasta /tmp:
+wget https://go.dev/dl/go1.20.3.linux-amd64.tar.gz
+
+::CHECK DOWNLOAD com ls:
+ian@ip-172-31-82-38:/tmp$ ls
+go1.20.3.linux-amd64.tar.gz
+
+::UNZIP TAR.GZ FILE na TEMP FOLDER:
+tar -xvf go1.20.3.linux-amd64.tar.gz
+
+::MOVE UNZIPPED FOLDER(name:go) TO USER/LOCAL(ele vai criar a pasta go):
+sudo mv go /usr/local
+
+::ADD go tu users path:
+ian@ip-172-31-82-38:/tmp$ cd
+ian@ip-172-31-82-38:~$ ls
+ian@ip-172-31-82-38:~$ nano .profile
+
+cd (volta pra home)
+nano .profile (.profile ja existe, precisa alterar)
+
+***Se precisar entra em https://go.dev/doc/install pra pegar a variavel que precisa estar em .profile(export PATH=$PATH:/usr/local/go/bin)
+::COLA NA ULTIMA LINHA DO .profile:
+export PATH=$PATH:/usr/local/go/bin
+
+::RELOAD VARIAVEIS DE AMBIENTE:
+source .profile
+
+::CRIAR PASTAS
+mkdir go
+cd go
+mkdir src
+cd src
+***clonar aqui o repositório
+
+::COLOCAR O CODIGO GO NO SERVIDOR(por git clone ou scp/rsync na pasta src):
+cd /go/src
+git clone https://github.com/ianvgs/Go-Api-Gin-Gorm.git
+
+::BUILDA O PROJETO(dentro da pasta do projeto):
+go build
+
+::CRIAR SERVIÇO PRA RODAR EM BACKGROUND COM VARIAVEIS EMBUTIDAS(exemplo abaixo):
+sudo nano /lib/systemd/system/gowebapp.service
+
+::START | STATUS | LOG | RELOAD | O SERVICO:
+sudo service gowebapp start
+sudo service gowebapp restart
+sudo service gowebapp status
+sudo rm /lib/systemd/system/gowebapp.service
+sudo journalctl -u gowebapp.service
+sudo systemctl daemon-reload
+
+
+::ATIVA PRA LIGAR TODA VEZ QUE REBOOT:
+sudo systemctl enable gowebapp.service
+sudo systemctl disable gowebapp.service
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+EXEMPLO DE SERVIÇO A SER CRIADO:
+GNU nano 6.2                                       /lib/systemd/system/newgo.service   
+
+[Unit]
+Description=Newgo service.
+
+Requires=mysql.service
+After=mysql.service
+
+[Service]
+User=ian
+
+Environment=GO_ENV=production
+Environment=MONGODB_URI='mongodb+srv://test:test@mdbcluster.tgepnhk.mongodb.net/golang?retryWrites=true&w=majority'
+Environment=PORT=3000
+Environment=DB_USERNAME=ian
+Environment=DB_PASSWORD=Genuine1#
+Environment=DB_NAME=news_database
+Environment=DB_HOST=127.0.0.1
+Environment=DB_PORT=3306
+ExecStart=/home/ian/go/src/go-app/goagain
+
+[Install]
+WantedBy=multi-user.target
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+TROUBLESHOTTING:
+1)ExecStart=/home/ian/go/src/go-app/goagain
+quando faz clone do git em vez de /go-app/ é /Go-Api-Gin-Gorm/
+
+
+
+
+
+
+
+
+
+
+
