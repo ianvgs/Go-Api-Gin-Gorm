@@ -82,36 +82,36 @@ a {
 
 /* Style the navbar burger icon */
 .navbar-burger span {
-    background-color: #ffffff;
+    /*  background-color: #ffffff; */
     /* Set the background color */
 }
 
 /* Style the navbar X icon */
 .navbar-close span {
-    background-color: #ffffff;
+    /*     background-color: #ffffff; */
     /* Set the background color */
 }
 
 /* Style the navbar burger icon */
 .navbar-burger span {
-    background-color: #ffffff;
+    /*   background-color: #ffffff; */
     /* Set the default background color */
 }
 
 /* Style the navbar X icon */
 .navbar-close span {
-    background-color: #ffffff;
+    /*     background-color: #ffffff; */
     /* Set the default background color */
 }
 
 /* Change the color of the icons when the navbar is open */
 .navbar-burger.is-active span {
-    background-color: #ffffff;
+    /*    background-color: #ffffff; */
     /* Set the active background color */
 }
 
 /* Change the color of the icons when the navbar is open */
 .navbar-close.is-active span {
-    background-color: #ffffff;
+    /*     background-color: #ffffff; */
     /* Set the active background color */
 }

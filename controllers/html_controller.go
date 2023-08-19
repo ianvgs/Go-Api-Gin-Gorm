@@ -8,7 +8,8 @@ import (
 	"log"
 	"net/http"
 	"reflect"
-	"time"
+
+	/* 	"time" */
 
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
@@ -22,7 +23,7 @@ func IndexGetHandler() gin.HandlerFunc {
 
 	//busca dados das tabelas noticias e categorias
 	initializers.DB.Unscoped().Preload("Colaborador").Limit(3).Find(&noticias)
-	initializers.DB.Find(&categorias)
+	initializers.DB.Where("idSite = ?", 2).Find(&categorias)
 
 	/* fmt.Println("Noticias:", noticias) */
 	/* for _, noticia := range noticias {
@@ -30,13 +31,13 @@ func IndexGetHandler() gin.HandlerFunc {
 	} */
 
 	//Mocks de noticias & categorias
-	categorias = append(categorias, models.Categoria{
+	/* categorias = append(categorias, models.Categoria{
 		Id:        1,
 		Nome:      "Mocked One",
 		Descricao: "categMock",
-	})
+	}) */
 
-	noticias = append(noticias, models.Noticia{
+	/* noticias = append(noticias, models.Noticia{
 		Id:            1,
 		ColaboradorId: 1,
 		Titulo:        "MockTitulo na controller + 3 records do DB acima, ou erro",
@@ -47,7 +48,7 @@ func IndexGetHandler() gin.HandlerFunc {
 		CreatedAt:     time.Date(2023, 4, 2, 10, 30, 0, 0, time.UTC),
 		UpdatedAt:     time.Date(2023, 4, 2, 10, 30, 0, 0, time.UTC),
 	})
-
+	*/
 	// Cria um novo array com a quantidade de elementos de categorias com as cores de colors, pode ser assim: colorArray := make([]string, 4)
 	colorArray := make([]string, len(categorias))
 	for i := 0; i < len(colorArray); i++ {
@@ -93,7 +94,8 @@ func CategoryShow() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		id := c.Param("id")
 		var categoryNews []models.Noticia
-		initializers.DB.Where("idCategoria = ?", id).Limit(3).Find(&categoryNews)
+
+		initializers.DB.Unscoped().Preload("Colaborador").Preload("Categoria").Where("idCategoria = ?", id).Limit(3).Find(&categoryNews)
 
 		if reflect.DeepEqual(categoryNews, models.Noticia{}) {
 			c.Redirect(http.StatusMovedPermanently, "/")
@@ -104,6 +106,7 @@ func CategoryShow() gin.HandlerFunc {
 			"content":      "",
 			"param_id":     id,
 			"categoryNews": categoryNews,
+			"categoryName": categoryNews[0].Categoria.Nome,
 		})
 	}
 }
@@ -113,6 +116,12 @@ func NewsShow() gin.HandlerFunc {
 		id := c.Param("id")
 		var news models.Noticia
 		initializers.DB.First(&news, id)
+		/* 	news.FormatCreatedAt() */
+		fmt.Println("Formatted date:", news.CreatedAt)
+
+		formattedDate := news.CreatedAt.Format("Jan 02, 2006")
+
+		log.Println("logging out user:", formattedDate)
 
 		if reflect.DeepEqual(news, models.Noticia{}) {
 			c.Redirect(http.StatusMovedPermanently, "/")
@@ -120,9 +129,10 @@ func NewsShow() gin.HandlerFunc {
 		}
 
 		c.HTML(http.StatusOK, "newsShow.html", gin.H{
-			"content":  "",
-			"param_id": id,
-			"news":     news,
+			"content":      "",
+			"param_id":     id,
+			"news":         news,
+			"formatedDate": formattedDate,
 		})
 	}
 }

@@ -1,47 +1,60 @@
 {{template "header.html" .}}
-<section class="container is-flex">   
-    <div class="columns is-flex is-vcentered has-text-centered">
-       <!--  <h1>Categoria:</h1> -->
-        <div class="section f-width">
-            <div class=" box content">
-                {{range $index, $element := .categoryNews}}
 
+
+
+<section class="container  has-text-centered">
+    <h1 class="title" style="color: #1A5754;">
+        {{ .categoryName }}
+    </h1>
+
+    <div class="columns is-flex is-vcentered has-text-centered">
+        <div class=" box content">
+            {{range $index, $element := .categoryNews}}
+
+            <article class="post">
                 <article class="post">
-                    <article class="post">
-                        <!--    {{$element}} -->
-                        <!-- tem que acessar o atributo como na model "Nome","Titulo" -->
+                    <!--    {{$element}} -->
+                    <!-- tem que acessar o atributo como na model "Nome","Titulo" -->
+                    <a href="/news/{{$element.Id}}">
                         <h4>{{$element.Titulo}}</h4>
-                        <div class="media">
-                            <div class="media-left">
-                                <p class="image is-32x32">
-                                    <img src="http://bulma.io/images/placeholders/128x128.png">
+                        <p>{{$element.Resumo}}</p>
+                    </a>
+                    <div class="media">
+                        <div class="media-left">
+                            <p class="image is-32x32">
+                                <img src="{{$element.ImgPath}}">
+                            </p>
+                        </div>
+                        <div class="media-content">
+                            <div class="content">
+                                <p>
+                                    <!-- tem que acessar o atributo como na model "Nome","Titulo" -->
+                                    <a href="#">@{{$element.Colaborador.Nome}}</a> replied 34 minutes ago &nbsp;
+                                    <span class="tag">Question</span>
                                 </p>
                             </div>
-                            <div class="media-content">
-                                <div class="content">
-                                    <p>
-                                        <!-- tem que acessar o atributo como na model "Nome","Titulo" -->
-                                        <a href="#">@</a> replied 34 minutes ago &nbsp;
-                                        <span class="tag">Question</span>
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="media-right">
-                                <span class="has-text-grey-light"><i class="fa fa-comments"></i> 1</span>
-                            </div>
-
-
+                        </div>
+                        <div class="media-right">
+                            <span class="has-text-grey-light"><i class="fa fa-comments"></i> 1</span>
                         </div>
 
 
-                        {{if lt $index (Subt (len $.categoryNews) 1) }}
-                        <hr class="is-divider">
-                        {{end}}
-                    </article>
+                    </div>
+
+
+                    {{if lt $index (Subt (len $.categoryNews) 1) }}
+                    <hr class="is-divider">
                     {{end}}
-            </div>
+                </article>
+                {{end}}
         </div>
+
     </div>
 </section>
 
+
+<script>
+    var jsonData = {{ .categoryNews }};
+    console.log("JSON Data:", jsonData);
+</script>
 {{template "footer.html"}}

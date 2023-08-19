@@ -1,4 +1,11 @@
 {{template "header.html" .}}
+
+<div class="notification is-info">
+    <i class="fa fa-bell-o"></i>
+
+    Powered by Go & Gin & Gorm & Bulma, this app mean to be a demonstration of building web apps with Golang, BEst
+    regards, Ian :).
+</div>
 <div class="columns" style="justify-content: center;">
     <aside class="column is-2 aside hero">
         <aside class="menu">
@@ -27,26 +34,30 @@
                 <article class="post">
                     <!--    {{$element}} -->
                     <!-- tem que acessar o atributo como na model "Nome","Titulo" -->
-                    <h4>{{$element.Titulo}}</h4>
-                    <div class="media">
-                        <div class="media-left">
-                            <p class="image is-32x32">
-                                <img src="http://bulma.io/images/placeholders/128x128.png">
-                            </p>
-                        </div>
-                        <div class="media-content">
-                            <div class="content">
-                                <p>
-                                    <!-- tem que acessar o atributo como na model "Nome","Titulo" -->
-                                    <a href="#">@{{$element.Colaborador.Nome}}</a> replied 34 minutes ago &nbsp;
-                                    <span class="tag">Question</span>
+                    <a href="news/{{$element.Id}}">
+                        <h4>{{$element.Titulo}}</h4>
+                        <p>{{$element.Resumo}}</p>
+                        <div class="media">
+                            <div class="media-left">
+                                <p class="image is-32x32">
+                                    <!-- <img src="http://bulma.io/images/placeholders/128x128.png"> -->
+                                    <img src="{{$element.ImgPath}}">
                                 </p>
                             </div>
+                            <div class="media-content">
+                                <div class="content">
+                                    <p>
+                                        <!-- tem que acessar o atributo como na model "Nome","Titulo" -->
+                                        <a href="#">@{{$element.Colaborador.Nome}}</a> replied 34 minutes ago &nbsp;
+                                        <span class="tag">Question</span>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="media-right">
+                                <span class="has-text-grey-light"><i class="fa fa-comments"></i> 1</span>
+                            </div>
                         </div>
-                        <div class="media-right">
-                            <span class="has-text-grey-light"><i class="fa fa-comments"></i> 1</span>
-                        </div>
-                    </div>
+                    </a>
                     {{if lt $index (Subt (len $.posts) 1) }}
                     <hr class="is-divider">
                     {{end}}
@@ -56,6 +67,8 @@
     </div>
 
 </div>
+
+
 
 
 

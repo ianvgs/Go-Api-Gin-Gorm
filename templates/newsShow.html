@@ -1,53 +1,94 @@
-{{template "header.html" .}}
-<div class="container">
-    <!-- START ARTICLE FEED -->
-    <section class="articles">
-        <div class="column is-8 is-offset-2">
-            <!-- START ARTICLE -->
-            <div class="card article">
-                <div class="card-content">
-                    <div class="media">
-                        <div class="media-content has-text-centered">
-                            <p class="title article-title">{{.news.Titulo}}</p>
-                            <div class="tags has-addons level-item">
-                                <span class="tag is-rounded is-info">@news.Colaborador.Nome</span>
-                                <span class="tag is-rounded">{{.news.CreatedAt}}</span>
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Hello, friend {{if .user}} {{ .user}} {{end}}</title>
+    <link rel="shortcut icon" href="../assets/gopngg.png" type="image/x-icon">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/bulma@0.9.0/css/bulma.min.css" />
+    <link rel="stylesheet" type="text/css" href=" ../assets/styles/globals.css">
+    <link rel="stylesheet" type="text/css" href=" ../assets/styles/blog.css">
+</head>
+
+<body>
+    {{template "navbar.html" .}}
+    <section class="hero is-info is-medium is-bold">
+        <div class="hero-body" style="background-image: url({{.news.ImgPath}});
+        background-position: center;
+        background-size: cover;
+        background-repeat: no-repeat;
+        height: 300px;">
+            <!--  Texto por cima da imagem -->
+            <!--   <div class="container has-text-centered">
+                <h1 class="title">Lorem ipsum dolor sit amet, consectetur adipiscing elit, <br>sed eiusmod tempor
+                    incididunt ut labore et dolore magna aliqua</h1>
+            </div> -->
+        </div>
+        <!--      {{.news.ImgPath}} -->
+    </section>
+
+
+    <div class="container">
+
+        <section class="articles">
+            <div class="column is-8 is-offset-2">
+                <!-- START ARTICLE -->
+                <div class="card article">
+                    <div class="card-content">
+                        <div class="media">
+                            <div class="media-content has-text-centered">
+                                <p class="title article-title">{{.news.Titulo}}</p>
+                                <script>
+                                    var jsonData = {{ .news }};
+                                    console.log("JSON Data:", jsonData);
+                                </script>
+                                <script>
+                                    var jsonData = {{ .}};
+                                    console.log("JSON Data:", jsonData);
+                                </script>
+
+                                <div class="tags has-addons level-item">
+                                    <span class="tag is-rounded is-info"><!-- @{{.news.Colaborador}} -->Ian</span>
+                                    <span class="tag is-rounded">{{.formatedDate}}</span>
+                                </div>
+                                <div class="tags has-addons">
+                                    <span class="tag is-dark">Views:</span>
+                                    <span class="tag is-primary">{{.news.Views}}</span>
+                                </div>
+
                             </div>
                         </div>
-                    </div>
-                    <div class="content article-body">
-                        {{.news.Resumo}}
-                        <h3 class="has-text-centered">How to properly center tags in bulma?</h3>
-                        <p> Proper centering of tags in bulma is done with class:
-                        <pre>level-item</pre>
-                        Voluptat ut farmacium tellus in metus vulputate. Feugiat in fermentum posuere urna nec. Pharetra
-                        convallis posuere morbi leo urna molestie.
-                        Accumsan lacus vel facilisis volutpat est velit egestas. Fermentum leo vel orci porta. Faucibus
-                        interdum posuere lorem ipsum.</p>
+
+
+                        <div class="content article-body" id="rawContentContainer">
+                        </div>
+
+
+
+
                     </div>
                 </div>
+                <!-- END ARTICLE -->
             </div>
-            <!-- END ARTICLE -->
+        </section>
+
+    </div>
 
 
-            <!-- START PROMO BLOCK -->
-            <!--  <section class="hero is-info is-bold is-small promo-block">
-                <div class="hero-body">
-                    <div class="container">
-                        <h1 class="title">
-                            <i class="fa fa-bell-o"></i> Nemo enim ipsam voluptatem quia.
-                        </h1>
-                        <span class="tag is-black is-medium is-rounded">
-                            Natus error sit voluptatem
-                        </span>
-                    </div>
-                </div>
-            </section> -->
-            <!-- END PROMO BLOCK -->
+    <script async type="text/javascript" src="../js/bulma.js"></script>
+    <script>
+        var container = document.getElementById("rawContentContainer");
+        container.innerHTML = {{.news.Texto }};
+    </script>
+</body>
 
-        </div>
 
-    </section>
-    <!-- END ARTICLE FEED -->
-</div>
+
+
+
+
 {{template "footer.html"}}
