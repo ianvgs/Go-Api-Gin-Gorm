@@ -1,4 +1,4 @@
-You can check this project running at aws-ec2-ubuntu machine here: http://3.93.242.129.
+You can check this project running at aws-ec2-ubuntu machine here: (http://44.212.43.124:3001/).
 
 See you, yours Ian
 
