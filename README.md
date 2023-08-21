@@ -1,49 +1,25 @@
-You can check this project running at aws-ec2-ubuntu machine here: http://3.93.242.129.
+# Presentation
+
+It's a fullstack news web app created using Golang & Gin & Gorm & Bulma.
+
+You can check this project running at AWS here: "http://44.212.43.124:3001/".
+
+This app shares the same database of this Nextjs + Nestjs Web Application, found here:"http://44.212.43.124"
+
+As they share the same tables at database, the categories and news related are the same. You can compare'em. :)
 
 See you, yours Ian
 
-### Run server  changes
-/gobuild
-./goagain
+### Run local
+go run main.go
 
 ### Run Local + watching changes
 CompileDaemon -command="./your-app-binary"
-CompileDaemon -command="./goagain"  
+Ex: CompileDaemon -command="./goagain"  
 
-Logging:
+### Building Golang .exe
+/gobuild
 
-No html:
-A) Direto no html => 
-             <h4>
-                {{ $element.Titulo}}
-            </h4>
-            ***Lembrar que o atrituboto é renomeado na model titulo => Titulo;
+### Running the exe.
+./goagain
 
-B) No browser:
-            <script>
-                var titulo = "{{ $element.Titulo }}";
-                console.log("Titulo:", titulo);
-            </script>            
-            <script>
-                    var jsonData = {{ .element }};
-                    console.log("JSON Data:", jsonData);
-            </script>  
-            <script>
-                    var jsonData = {{ .news }};
-                    console.log("JSON Data:", jsonData);
-            </script>
-             ***Pode inserir dentro de qualquer tag
-
-
-
-
-
-No terminal (arquivos fora do html):
-    Log Unico:
-     fmt.Println("Noticias:", noticias) 
-	
-
-    Log de array:    
-     for _, noticia := range noticias {
-		fmt.Println("Colaborador:", noticia.Colaborador)
-	} 
