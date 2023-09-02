@@ -2,7 +2,6 @@ package initializers
 
 import (
 	"context"
-	"fmt"
 	"log"
 	"os"
 	"time"
@@ -13,9 +12,6 @@ import (
 )
 
 func envMongoURI() string {
-
-	varMode := os.Getenv("GO_ENV")
-	log.Println("MODE:", varMode)
 
 	if os.Getenv("GO_ENV") != "production" {
 		err := godotenv.Load()
@@ -29,6 +25,7 @@ func envMongoURI() string {
 }
 
 func ConnectMongoDB() *mongo.Client {
+	log.Println("Lauching Mongo Connection")
 	client, err := mongo.NewClient(options.Client().ApplyURI(envMongoURI()))
 	if err != nil {
 		log.Fatal(err)
@@ -45,7 +42,7 @@ func ConnectMongoDB() *mongo.Client {
 	if err != nil {
 		log.Fatal(err)
 	}
-	fmt.Println("Connected to MongoDB")
+
 	return client
 }
 

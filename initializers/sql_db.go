@@ -12,10 +12,6 @@ import (
 var DB *gorm.DB
 
 func envMySqlString() string {
-
-	varMode := os.Getenv("GO_ENV")
-	log.Println("MODE:", varMode)
-
 	if os.Getenv("GO_ENV") != "production" {
 		err := godotenv.Load()
 		if err != nil {
@@ -29,7 +25,6 @@ func envMySqlString() string {
 	DB_NAME := os.Getenv("DB_NAME")
 	DB_HOST := os.Getenv("DB_HOST")
 	DB_PORT := os.Getenv("DB_PORT")
-	log.Println("Username:", DB_USERNAME)
 
 	dsn := DB_USERNAME + ":" + DB_PASSWORD + "@tcp" + "(" + DB_HOST + ":" + DB_PORT + ")/" + DB_NAME + "?" + "parseTime=true&loc=Local"
 
@@ -37,6 +32,7 @@ func envMySqlString() string {
 }
 
 func ConnectToDB() {
+	log.Println("Connecting to MYSQL")
 
 	var err error
 	dsn := envMySqlString()

@@ -9,7 +9,7 @@ import (
 
 func LoadEnvVariables() {
 	varMode := os.Getenv("GO_ENV")
-	log.Println("MODE:", varMode)
+	log.Println("Loading environment variables at mode:", varMode)
 
 	if os.Getenv("GO_ENV") != "production" {
 		err := godotenv.Load()
