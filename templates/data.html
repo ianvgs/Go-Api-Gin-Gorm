@@ -1,0 +1,167 @@
+{{template "header.html" .}}
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.6.0/jszip.min.js"></script>
+
+
+
+<section class="container">
+
+    <div class="columns">
+        <div class="column left ">
+            <h1 class="title is-1">Data Visualization</h1>
+            <h2 class="subtitle colored is-4">Charts Generator from CSVs file.</h2>
+            <p>Upload a csv file, choose a column of type int or float to be the Y axis of the charts and enjoy
+                the results!</p>
+            <ul style="  list-style-type: disc;  ">
+                <br>
+                <li>Choose a column from CSV to be the Y axis of comparision for all the other columns, must be type of
+                    int or float.</li>
+                <li>Upload the csv and click in "Get Charts" button.</li>
+                <li>Any hints will be displayed in a error message if needed, watch out for case sensitiviness in column
+                    informed.</li>
+            </ul>
+        </div>
+        <div class="column right has-text-centered is-one-third">
+            <h1 class="title is-4">Upload a CSV</h1>
+            <form action="localhost:3003/grapher&return" method="POST" enctype="multipart/form-data" id="csvUploadForm">
+                <div class="field">
+                    <div class="control">
+                        <input class="input is-medium" type="text" id="colTarget" name="colTarget" required
+                            placeholder="Coluna do csv para ser eixo Y">
+                    </div>
+                </div>
+
+                <div class="field">
+                    <div class="control">
+
+                        <input class="input is-medium" type="file" id="csvFile" name="csv" accept=".csv" required
+                            placeholder="Envie um csv">
+                    </div>
+                </div>
+                <button type="submit" class="button is-block is-primary is-fullwidth is-medium">Get
+                    charts</button>
+                <br />
+                <div id="error-message" class="notification is-danger is-hidden"></div>
+            </form>
+
+
+
+
+
+
+
+        </div>
+    </div>
+
+    <div class="columns is-multiline is-centered" id="imageColumns"></div>
+
+</section>
+
+
+<script>
+
+    document.getElementById('csvUploadForm').addEventListener('submit', async function (e) {
+        e.preventDefault();
+
+        const erroredDiv = document.getElementById('error-message');
+        erroredDiv.classList.add('is-hidden');
+
+
+
+        const formData = new FormData(this);
+
+        try {
+            const response = await axios.post('/grapher&return', formData, {
+                responseType: 'arraybuffer',
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+            });
+
+            const zip = new JSZip();
+            const data = response.data;
+            const zipFile = await zip.loadAsync(data);
+
+            const extractedImages = [];
+            await Promise.all(
+                Object.keys(zipFile.files).map(async (filename) => {
+                    const file = zipFile.files[filename];
+                    if (!file.dir && file.name.endsWith('.png')) {
+                        const imageData = await file.async('blob');
+                        const imageUrl = URL.createObjectURL(imageData);
+                        extractedImages.push(imageUrl);
+                    }
+                })
+            );
+
+
+            const divColumns = document.getElementById('imageColumns');
+            extractedImages.forEach((imageUrl, index) => {
+                const columnDiv = document.createElement('div');
+                columnDiv.classList.add('column');
+                columnDiv.classList.add('is-one-third');
+
+                const cardDiv = document.createElement('div');
+                cardDiv.classList.add('card');
+
+                const cardImageDiv = document.createElement('div');
+                cardImageDiv.classList.add('card-image');
+
+                const figureElement = document.createElement('figure');
+                figureElement.classList.add('image'/* , 'is-2by1' */);
+
+                const imgElement = document.createElement('img');
+                imgElement.src = imageUrl;
+                imgElement.alt = `Image ${index}`;
+
+                figureElement.appendChild(imgElement);
+                cardImageDiv.appendChild(figureElement);
+                cardDiv.appendChild(cardImageDiv);
+                columnDiv.appendChild(cardDiv);
+                divColumns.appendChild(columnDiv);
+            })
+
+
+        } catch (error) {
+            console.log("ENTROU NO ERROR PARÇA", error)
+            // Convert the ArrayBuffer to a string using TextDecoder
+            const decoder = new TextDecoder('utf-8');
+            const errorMessages = decoder.decode(error.response.data);
+
+
+            // Display the error message to the user
+            const errorDiv = document.getElementById('error-message');
+
+            console.log("LOGGED VAR:", errorMessages)
+
+            const formattedErrorMessage = JSON.stringify(errorMessages, null, 2); // 2 spaces for indentation
+
+            // Set the formatted error message in a <pre> element
+            errorDiv.innerHTML = `<pre>${formattedErrorMessage}</pre>`;
+
+
+            /*          errorDiv.innerHTML = errorMessages; */
+            errorDiv.classList.remove('is-hidden');
+            /*       errorDiv.innerHTML = `<pre>${formattedErrorMessage}</pre>`; */
+
+
+
+            /*   const errorMessage = response.data.Message;  
+              // Display the error message to the user
+              const errorDiv = document.getElementById('error-message');
+              errorDiv.textContent = errorMessage; */
+
+            // Clear any previous images
+            const imagesDiv = document.getElementById('images');
+            imagesDiv.innerHTML = '';
+
+
+
+            /*   const errorMessageDiv = document.getElementById('error-message');
+              errorMessageDiv.textContent = 'An error occurred: ' + error.message;
+              errorMessageDiv.classList.remove('is-hidden'); */
+
+        }
+    });
+</script>
+{{template "footer.html"}}

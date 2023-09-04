@@ -2,6 +2,7 @@ package routes
 
 import (
 	"goagain/controllers"
+	data_routes "goagain/data_pkg"
 	"goagain/globals"
 	"goagain/helpers"
 	"goagain/middleware"
@@ -19,6 +20,8 @@ import (
 
 func HandleRequests() {
 	r := gin.Default()
+	//Config do cors dentro desse mid
+	r.Use(middleware.CORSMiddleware())
 
 	//Funcoes pra serem usadas nos HTML
 	r.SetFuncMap(template.FuncMap{
@@ -41,6 +44,9 @@ func HandleRequests() {
 
 	publicPosts := r.Group("/")
 	postRoutes(publicPosts)
+
+	publicData := r.Group("/")
+	data_routes.DataRoutes(publicData)
 
 	publicUsers := r.Group("/")
 	userRoutes(publicUsers)
@@ -81,6 +87,8 @@ func publicRoutes(g *gin.RouterGroup) {
 	g.GET("/about", controllers.AboutGetHandler())
 	g.POST("/login", controllers.ValidateLogin())
 	g.GET("/", controllers.IndexGetHandler())
+	g.GET("/data", controllers.DataGetHandler())
+	g.GET("/sentimenter", controllers.SentimeterGetHandler())
 	g.GET("/category/:id", controllers.CategoryShow())
 	g.GET("/news/:id", controllers.NewsShow())
 }

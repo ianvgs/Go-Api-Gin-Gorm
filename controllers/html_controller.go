@@ -71,6 +71,28 @@ func IndexGetHandler() gin.HandlerFunc {
 	}
 }
 
+func DataGetHandler() gin.HandlerFunc {
+
+	return func(c *gin.Context) {
+
+		c.HTML(http.StatusOK, "data.html", gin.H{
+			"content": "This is an index page...",
+		})
+
+	}
+}
+
+func SentimeterGetHandler() gin.HandlerFunc {
+
+	return func(c *gin.Context) {
+
+		c.HTML(http.StatusOK, "sentimenter.html", gin.H{
+			"content": "This is an index page...",
+		})
+
+	}
+}
+
 func AboutGetHandler() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		session := sessions.Default(c)

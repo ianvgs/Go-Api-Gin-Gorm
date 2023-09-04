@@ -1,0 +1,184 @@
+{{template "header.html" .}}
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.6.0/jszip.min.js"></script>
+
+
+<section class="container">
+    <div class="columns is-multiline">
+        <div class="column is-8 is-offset-2 register">
+            <div class="columns">
+                <div class="column left">
+                    <h1 class="title is-1">Sentiment Analyser</h1>
+                    <h2 class="subtitle colored is-4">Returns the polarity score of a given phrase.</h2>
+
+                    <ul style="  list-style-type: disc;  ">
+                        <br>
+                        <li>Create some text in English about something, try to express your opinion about it, if you
+                            liked it or not.</li>
+                        <li>Let our analyser give a feedback about it.</li>
+                        <li>Send others for testing.</li>
+                    </ul>
+                </div>
+                <div class="column right has-text-centered">
+                    <h1 class="title is-4">Sign up today</h1>
+                    <p class="description">Lorem ipsum dolor, sit amet consectetur adipisicing elit</p>
+                    <form action="/sentiment" method="POST" id="sentimentForm" enctype="multipart/form-data">
+                        <div class="field">
+                            <div class="control">
+                                <input class="input is-medium" type="text" placeholder="Text to be analised"
+                                    id="textToAnalysis" name="textToAnalysis">
+                            </div>
+                        </div>
+
+                        <button class="button is-block is-primary is-fullwidth is-medium">Analyse it!</button>
+                        <br />
+                        <!--   <small><em>Lorem ipsum dolor sit amet consectetur.</em></small> -->
+
+
+                        <div id="result" class="card is-hidden">
+                            <div class="card-content">
+                                <div class="result-heading">
+                                    <h4>Result</h4>
+                                </div>
+                                <table class="table is-bordered full-width" style="width: 100%;">
+                                    <thead>
+                                        <tr>
+                                            <th>Category</th>
+                                            <th>Polarity</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Negative:</td>
+                                            <td id="negativeCount"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Neutral:</td>
+                                            <td id="neutralCount"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Positive :</td>
+                                            <td id="positiveCount"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+
+<script>
+    document.getElementById('sentimentForm').addEventListener('submit', async function (e) {
+        e.preventDefault();
+        const formData = new FormData(this);
+        console.log("formData", formData)
+        try {
+            const response = await axios.post('/sentiment', formData);
+
+            const responseData = response.data;
+            console.log("RESPONSE DATA", response.data)
+
+            // Populate the card with the response data
+            document.getElementById('negativeCount').textContent = responseData['Negative:'].toFixed(3) + "%";
+            document.getElementById('neutralCount').textContent = responseData['Neutral:'].toFixed(3) + "%";
+            document.getElementById('positiveCount').textContent = responseData['Positive:'].toFixed(3) + "%";
+
+
+            const resultDiv = document.getElementById('result')
+            resultDiv.classList.remove('is-hidden');
+
+
+
+        } catch (error) {
+        }
+    });
+</script>
+
+<style>
+    :root {
+        --brandColor: hsl(166, 67%, 51%);
+        --background: rgb(247, 247, 247);
+        --textDark: hsla(0, 0%, 0%, 0.66);
+        --textLight: hsla(0, 0%, 0%, 0.33);
+    }
+
+    body {
+        background: var(--background);
+        height: 100vh;
+        color: var(--textDark);
+    }
+
+    .field:not(:last-child) {
+        margin-bottom: 1rem;
+    }
+
+    .register {
+        margin-top: 10rem;
+        background: white;
+        border-radius: 10px;
+    }
+
+    .left,
+    .right {
+        padding: 4.5rem;
+    }
+
+    .left {
+        border-right: 5px solid var(--background);
+    }
+
+    .left .title {
+        font-weight: 800;
+        letter-spacing: -2px;
+    }
+
+    .left .colored {
+        color: var(--brandColor);
+        font-weight: 500;
+        margin-top: 1rem !important;
+        letter-spacing: -1px;
+    }
+
+    .left p {
+        color: var(--textLight);
+        font-size: 1.15rem;
+    }
+
+    .right .title {
+        font-weight: 800;
+        letter-spacing: -1px;
+    }
+
+    .right .description {
+        margin-top: 1rem;
+        margin-bottom: 1rem !important;
+        color: var(--textLight);
+        font-size: 1.15rem;
+    }
+
+    .right small {
+        color: var(--textLight);
+    }
+
+    input {
+        font-size: 1rem;
+    }
+
+    input:focus {
+        border-color: var(--brandColor) !important;
+        box-shadow: 0 0 0 1px var(--brandColor) !important;
+    }
+
+    .fab,
+    .fas {
+        color: var(--textLight);
+        margin-right: 1rem;
+    }
+</style>
+{{template "footer.html"}}
