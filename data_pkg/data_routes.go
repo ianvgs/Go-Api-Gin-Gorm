@@ -2,6 +2,7 @@ package data_routes
 
 import (
 	examplepkg "goagain/data_pkg/controllers"
+	convolutional_neural_network_controller "goagain/data_pkg/controllers/convolutional_neural_network_controller"
 	data_controller "goagain/data_pkg/controllers/data_controller"
 	sentiment_controller "goagain/data_pkg/controllers/sentiment_controller"
 
@@ -42,6 +43,9 @@ func DataRoutes(g *gin.RouterGroup) {
 	} */
 	//Enviar arquivo csv e a coluna que deve ser usada pra gerar as visualizações
 	g.POST("/grapher&return", data_controller.GenerateChartsFromGivenCsvAndTargetColumnAndReturnThem())
+
+	//Enviar arquivo csv e a coluna que deve ser usada pra gerar as visualizações
+	g.POST("/analimage", convolutional_neural_network_controller.AnalyseImage())
 
 	//Método pra recuperar os gráficos pela url
 	g.POST("/plotter/:filename", func(c *gin.Context) {
